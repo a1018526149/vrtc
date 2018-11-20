@@ -24,7 +24,9 @@
 </head>
 <body style="padding:10px;">
   <div class="tplay-body-div">
+
       <form class="layui-form serch" action="{:url('admin/article/index')}" method="post">
+
         <div class="layui-form-item" style="float: left;">
           <div class="layui-input-inline">
             <input type="text" name="keywords" lay-verify="title" autocomplete="off" placeholder="请输入关键词" class="layui-input layui-btn-sm">
@@ -59,6 +61,7 @@
           <button class="layui-btn layui-btn-danger layui-btn-sm" lay-submit="" lay-filter="serch">立即提交</button>
         </div>
       </form> 
+      <a href="{:url('admin/member/publish')}" 	class="layui-btn layui-btn-normal layui-btn-sm" style="margin-left:10px;">注册会员</a>    
       <hr>
     <table class="layui-table" lay-size="sm">
       <colgroup>
@@ -66,10 +69,12 @@
         <col width="50">
         <col width="70">
         <col width="50">
-        <col width="100">
         <col width="50">
-        <col width="100">
-        <col width="100">
+        <col width="50">
+        <col width="50">
+        <col width="50">
+        <col width="50">
+        <col width="50">
         <col width="50">
         <col width="70">
         <col width="50">
@@ -81,12 +86,14 @@
           <th>用户昵称</th>
           <th>用户编号</th>
           <th>等级</th>
+          <th>级别</th>
           <th>手机号</th>
           <th>性别</th>
           <th>推荐人</th>
           <th>账户余额</th>
           <th>奖金余额</th>
           <th>注册时间</th>
+          <th>审核时间</th>
           <th>审核</th>
           <th>操作</th>
         </tr> 
@@ -98,6 +105,7 @@
           <td>{$vo.user_name}</td>
           <td>{$vo.user_number}</td>
           <td>{$vo.level|level}</td>
+          <td>{$vo.grade|grade}</td>
           <td>{$vo.mobile}</td>
           <td>
               {if condition="$vo.sex == 1 "}
@@ -110,6 +118,7 @@
           <td>{$vo.price}元</td>
           <td>{$vo.bonus}元</td>
           <td>{$vo.register_time|date="Y-m-d H:i:s",###}</td>
+          <td>{$vo.inspect_time|date="Y-m-d H:i:s",###}</td>
           <td><a href="javascript:;" style="font-size:18px;" class="status" data-id="{$vo.id}" data-val="{$vo.status}">{eq name="vo.status" value="1"}<i class="fa fa-toggle-on"></i>{else /}<i class="fa fa-toggle-off"></i>{/eq}</a></td>
           <td class="operation-menu">
             <div class="layui-btn-group">

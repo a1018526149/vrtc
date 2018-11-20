@@ -113,3 +113,54 @@ function level($level){
     $name=\think\Db::name('level_config')->where('level',$level)->find();
     return $name['name'];
 }
+
+/**
+ * 获取用户级别信息
+ * @param number $grade 级别
+ * @param string $name  返回名称
+ */
+
+function grade($grade){
+    $name=\think\Db::name('grade')->where('grade',$grade)->find();
+    return $name['name'];
+}
+
+/**
+ * 生成编号
+ * @param number $number 编号
+ */
+
+ function number($a){
+     $temporary=rand(1,9);
+     switch($temporary){
+        case 1:
+        $char="A";
+        break;
+        case 2:
+        $char="B";
+        break;
+        case 3:
+        $char="C";
+        break;
+        case 4:
+        $char="D";
+        break;
+        case 5:
+        $char="E";
+        break;
+        case 6:
+        $char="F";
+        break;
+        case 7:
+        $char="G";
+        break;
+        case 8:
+        $char="H";
+        break;
+        case 9:
+        $char="I";
+        break;
+     }
+     $number=$char.rand(10000,99999);
+     return $number;
+ }

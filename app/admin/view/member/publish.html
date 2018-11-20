@@ -14,42 +14,106 @@
   <div class="tplay-body-div">
         <div class="layui-tab">
                 <ul class="layui-tab-title">
-                  <li><a href="{:url('admin/member/levelset')}" class="a_menu">会员管理</a></li>
+                  <li><a href="{:url('admin/member/index')}" class="a_menu">会员管理</a></li>
                   <li class="layui-this">会员编辑</li>
                 </ul>
               </div> 
     <div style="margin-top: 20px;">
     </div>
     <form class="layui-form" id="admin">
+       
+      <div class="layui-form-item">
+          <label class="layui-form-label">用户编号</label>
+          <div class="layui-input-block" style="max-width:600px;">
+            <input name="user_number" lay-verify="required" placeholder="请输入编号" autocomplete="off" class="layui-input" type="text" {notempty name="$member.user_number"}value="{$member.user_number}"{else /}value="{$num|number}"{/notempty}>
+          </div>
+        </div>
 
       <div class="layui-form-item">
         <label class="layui-form-label">昵称</label>
         <div class="layui-input-block" style="max-width:600px;">
-          <input name="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text" {notempty name="$level.name"}value="{$level.name}"{/notempty}>
+          <input name="user_name" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input" type="text" {notempty name="$member.user_name"}value="{$member.user_name}"{/notempty}>
+        </div>
+      </div>
+
+      {notempty name='info'}
+      <div class="layui-form-item">
+          <label class="layui-form-label">密码</label>
+          <div class="layui-input-block" style="max-width:600px;">
+            <input name="user_password" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password" value="0123456789">
+            *{$info}
+          </div>
+        </div>
+      {/notempty}
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">等级</label>
+        <div class="layui-input-block" style="max-width:300px;">
+          <select name="level" lay-verify="required">
+            <option value=""></option>
+            {notempty name='member'}
+              {volist name='level_cate' id='vo'}
+                {if condition="$member.level==$vo.level "}
+                <option value="{$vo.level}" selected>{$vo.name}</option>
+                {else /}
+                <option value="{$vo.level}">{$vo.name}</option>
+                {/if}
+              {/volist}
+              {else /}
+              {volist name='level_cate' id='vo'}
+                <option value="{$vo.level}">{$vo.name}</option>
+              {/volist}
+            {/notempty}
+          </select>
         </div>
       </div>
 
       <div class="layui-form-item">
-        <label class="layui-form-label">等级</label>
-        <div div class="layui-input-block" style="max-width:600px;">
-          <input name="level" autocomplete="off" placeholder="标签之间用,隔开" class="layui-input" type="text" {notempty name="$level.level"}value="{$level.level}"{/notempty}>
+          <label class="layui-form-label">级别</label>
+          <div class="layui-input-block" style="max-width:300px;">
+            <select name="grade" lay-verify="required">
+              <option value=""></option>
+              {notempty name='member.grade'}
+                {volist name='grade' id='v'}
+                  {if condition="$member.grade==$v.grade"}
+                    <option value="{$v.grade}" selected>{$v.name}</option>
+                  {else/}
+                    <option value="{$v.grade}">{$v.name}</option>
+                  {/if}
+                {/volist}
+              {else /}
+                {volist name='grade' id='v'}
+                  <option value="{$v.grade}">{$v.name}</option>
+                {/volist}
+              {/notempty}
+            </select>
+          </div>
         </div>
-      </div>
 
       <div class="layui-form-item">
         <label class="layui-form-label">手机号</label>
         <div div class="layui-input-block" style="max-width:600px;">
-          <input name="mobile" autocomplete="off" placeholder="标签之间用,隔开" class="layui-input" type="text" {notempty name="$level.level"}value="{$level.level}"{/notempty}>
+          <input name="mobile" autocomplete="off" placeholder="请输入手机号" class="layui-input" type="text" {notempty name="$member.mobile"}value="{$member.mobile}"{/notempty}>
         </div>
       </div>
 
       <div class="layui-form-item">
-        <label class="layui-form-label">选择框</label>
+        <label class="layui-form-label">性别</label>
         <div class="layui-input-block" style="max-width:300px;">
           <select name="sex" lay-verify="required">
             <option value=""></option>
-            <option value="0">男</option>
-            <option value="1">女</option>
+            {notempty name='member.sex'}
+              {if condition="$member.sex==1"}
+              <option value="0">女</option>
+              <option value="1" selected>男</option>
+              {else /}
+              <option value="0" selected>女</option>
+              <option value="1">男</option>
+              {/if}
+            {else /}
+            <option value="0">女</option>
+            <option value="1" selected>男</option>
+            {/notempty}
           </select>
         </div>
       </div>
@@ -57,26 +121,26 @@
       <div class="layui-form-item">
         <label class="layui-form-label">推荐人</label>
         <div div class="layui-input-block" style="max-width:600px;">
-          <input name="level" autocomplete="off" placeholder="标签之间用,隔开" class="layui-input" type="text" {notempty name="$level.level"}value="{$level.level}"{/notempty}>
+          <input name="refree" autocomplete="off" placeholder="请输入推荐人编号" class="layui-input" type="text" {notempty name="$member.refree"}value="{$member.refree}"{/notempty}>
         </div>
       </div>
 
       <div class="layui-form-item">
         <label class="layui-form-label">余额</label>
         <div div class="layui-input-block" style="max-width:600px;">
-          <input name="level" autocomplete="off" placeholder="标签之间用,隔开" class="layui-input" type="text" {notempty name="$level.level"}value="{$level.level}"{/notempty}>
+          <input name="price" autocomplete="off" placeholder="请谨慎设置余额" class="layui-input" type="text" {notempty name="$member.price"}value="{$member.price}"{/notempty}>
         </div>
       </div>
       
       <div class="layui-form-item">
         <label class="layui-form-label">奖金余额</label>
         <div div class="layui-input-block" style="max-width:600px;">
-          <input name="price" autocomplete="off" placeholder="标签之间用,隔开" class="layui-input" type="text" {notempty name="$level.level"}value="{$level.level}"{/notempty}>
+          <input name="bonus" autocomplete="off" placeholder="请谨慎设置余额" class="layui-input" type="text" {notempty name="$member.bonus"}value="{$member.bonus}"{/notempty}>
         </div>
       </div>
 
-      {notempty name="$level"}
-      <input type="hidden" name="id" value="{$level.id}">
+      {notempty name="$member.id"}
+      <input type="hidden" name="id" value="{$member.id}">
       {/notempty}
       <div class="layui-form-item">
         <div class="layui-input-block">
@@ -115,7 +179,7 @@
           $(window).on('load', function() {
               form.on('submit(admin)', function(data) {
                   $.ajax({
-                      url:"{:url('admin/member/updatelevel')}",
+                      url:"{:url('admin/member/membereditapi')}",
                       data:$('#admin').serialize(),
                       type:'post',
                       async: false,

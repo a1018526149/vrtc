@@ -41,6 +41,44 @@
 		$id=$this->request->param('id');
 		if($id){
 			$searchFiedls=[
+				'id',
+				'user_name',
+				'mobile',
+				'sex',
+				'refree',
+				'price',
+				'bonus',
+				'register_time',
+				'level',
+				'user_number',
+				'status',
+				'grade'
+			];
+			$member=Db::name('member')->field($searchFiedls)->where('id',$id)->find();
+			$this->assign('member',$member);
+		}else{
+			$info="默认密码‘0123456789’";
+			$this->assign('info',$info);
+		}
+		$grade=Db::name('grade')->select();
+		$level_cate=Db::name('level_config')->select();
+		$this->assign('grade',$grade);
+		$this->assign('level_cate',$level_cate);
+		$this->assign('num','1');
+		return $this->fetch();
+	}
+
+	/**
+	 * 会员修改接口
+	 */
+
+	 function memberEditApi(){
+		$id=$this->request->param('id');
+		$data=$this->request->post();
+		
+		if($id){
+			//修改操作
+			$allowsFields=[
 				'user_name',
 				'mobile',
 				'sex',
@@ -52,11 +90,55 @@
 				'user_number',
 				'status'
 			];
-			$member=Db::name('member')->field($searchFiedls)->where('id',$id)->find();
-			dump($member);
+			$updateData=[];
+			foreach($data as $key => $value){
+				if(in_array($key,$allowsFields)){
+					$updateData[$key]=$value;
+				}
+			}
+			if(empty($updateData)){
+				$this->error('修改失败，请重试！');
+			}else{
+				Db::name('member')->where('id',$id)->update($updateData);
+				addlog($id);
+				$this->success('修改成功！','admin/member/index');
+			}
+		}else{
+			//新增操作
+			$data['user_password']=md5(md5($this->request->post('user_password')));
+			$allowsFields=[
+				'user_name',
+				'mobile',
+				'sex',
+				'refree',
+				'price',
+				'bonus',
+				'register_time',
+				'level',
+				'user_number',
+				'status',
+				'user_password'
+			];
+			$insertData=[];
+			foreach($data as $k => $v){
+				if(in_array($k,$allowsFields)){
+					$insertData[$k]=$v;
+				}
+			}
+			$insertData['register_time']=time();
+			if(empty($insertData)){
+				$this->error('添加失败！请重试');
+				die;
+			}
+			if(Db::name('member')->insert($insertData)){
+				addlog($id);
+				$this->success('注册成功','admin/member/index');
+			}else{
+				$this->error('注册失败！请稍后重试');
+			}
 		}
-		return $this->fetch();
-	}
+	 }
+
 
 	// 会员等级修改操作
 
