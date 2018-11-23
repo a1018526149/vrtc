@@ -177,3 +177,13 @@ function grade($grade){
 
     return $state_1;
  }
+
+ /**
+  * 通过id获取用户名
+  * @param number $id 用户id
+  * @param string $name 用户名
+  */
+  function getUserName($id){
+    $name=\think\Db::name('member')->field('user_name')->where('id',$id)->find();
+    return $name['user_name'];
+  }

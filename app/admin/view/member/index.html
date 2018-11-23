@@ -78,7 +78,9 @@
         <col width="50">
         <col width="70">
         <col width="50">
-        <col width="100">
+        <col width="70">
+        <col width="50">
+        <col width="50">
       </colgroup>
       <thead>
         <tr>
@@ -90,8 +92,10 @@
           <th>手机号</th>
           <th>性别</th>
           <th>推荐人</th>
+          <th>节点人</th>
           <th>账户余额</th>
           <th>奖金余额</th>
+          <th>收货地址</th>
           <th>注册时间</th>
           <th>审核时间</th>
           <th>审核</th>
@@ -115,8 +119,10 @@
               {/if}
           </td>
           <td>{$vo.refree}</td>
+          <td>{$vo.refree_node}</td>
           <td>{$vo.price}元</td>
           <td>{$vo.bonus}元</td>
+          <td><a href='{:url("admin/member/area",["id"=>$vo.id])}'>查看收货地址</a></td>
           <td>{$vo.register_time|date="Y-m-d H:i:s",###}</td>
           <td>{$vo.inspect_time|date="Y-m-d H:i:s",###}</td>
           <td><a href="javascript:;" style="font-size:18px;" class="status" data-id="{$vo.id}" data-val="{$vo.status}">{eq name="vo.status" value="1"}<i class="fa fa-toggle-on"></i>{else /}<i class="fa fa-toggle-off"></i>{/eq}</a></td>

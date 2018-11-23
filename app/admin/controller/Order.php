@@ -1,9 +1,10 @@
 <?php
  namespace app\admin\controller;
  use \think\Db;
-
+ use \think\Paginator;
  class Order extends Permissions
  {	
+	static $page=20;
 	/**
 	 * 会员列表首页  
 	 */  
@@ -16,7 +17,7 @@
 		}
 		else
 		{
-			$order=Db::name('orders')->order('id desc')->select();
+			$order=Db::name('orders')->order('id desc')->paginate($this::$page);
 			$this->assign('order',$order);
 		}
 		

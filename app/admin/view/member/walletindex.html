@@ -24,85 +24,50 @@
 </head>
 <body style="padding:10px;">
   <div class="tplay-body-div">
-
-      <form class="layui-form serch" action="{:url('admin/order/index')}" method="post">
-
-        <div class="layui-form-item" style="float: left;">
-          
-          <div class="layui-input-inline">
-            <input type="text" name="keywords" lay-verify="title" autocomplete="off" placeholder="请输入会员编号或姓名" class="layui-input layui-btn-sm">
-          </div>            
-          
-          <button class="layui-btn layui-btn-danger layui-btn-sm" lay-submit="" lay-filter="serch">查询</button>
-        </div>
-      </form> 
-      
+        <div class="layui-tab">
+                <ul class="layui-tab-title">
+                  <li class="layui-this">会员钱包管理</li>
+                  <li><a href="{:url('admin/member/walletset')}" class="a_menu">会员钱包修改/添加</a></li>
+                </ul>
+              </div> 
       <hr>
     <table class="layui-table" lay-size="sm">
       <colgroup>
         <col width="50">
         <col width="50">
-        <col width="70">
         <col width="50">
         <col width="50">
         <col width="50">
         <col width="50">
-        <col width="50">
-        <col width="50">
-        <col width="50">
-        <col width="50">
-        <col width="70">
-        <col width="50">
-        <col width="100">
       </colgroup>
       <thead>
         <tr>
           <th>ID</th>
-          <th>会员编号</th>
-          <th>姓名</th>
-          <th>总价格</th>
-          <th>折扣</th>
-          <th>实际支付</th>
-          <th>状态</th>
-          <th>时间</th>
+          <th>等级</th>
+          <th>名称</th>
+          <th>报单价</th>
+          <th>日封顶奖</th>
           <th>操作</th>
         </tr> 
       </thead>
       <tbody>
-        {volist name="order" id="vo"}
+        {volist name="wallet" id="vo"}
         <tr>
           <td>{$vo.id}</td>
-          <td>{$vo.username}</td>
-          <td>{$vo.realname}</td>
-          <td>{$vo.price}</td>
-          <td>{$vo.zhekou}</td>
-          <td>{$vo.price*$vo.zhekou/10}</td>    
-          <td>{$vo.state|ddstate}
-              ({if condition="$vo.ziti == 1 "}
-                自提
-                {/if}
-              )
-
-          </td>        
-          <td>{$vo.addtime|date="Y-m-d H:i:s",###}</td>          
+          <td>{$vo.grade}</td>
+          <td>{$vo.name}</td>
+          <td>{$vo.muber}</td>
+          <td>{$vo.fengding}</td>
           <td class="operation-menu">
             <div class="layui-btn-group">
-
-              <a href="{:url('admin/order/edit',['id'=>$vo.id])}" class="layui-btn layui-btn-xs a_menu layui-btn-primary" style="margin-right: 0;font-size:12px;"><i class="layui-icon">查看</i></a>
-              {if condition="$vo.state == 1 "}
-              <a href="{:url('admin/order/sendgood',['id'=>$vo.id])}" class="layui-btn layui-btn-xs layui-btn-primary fh"  style="margin-right: 0;font-size:12px;"><i class="layui-icon">发货</i></a>
-              <a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-primary ziti" id="{$vo.id}" style="margin-right: 0;font-size:12px;"><i class="layui-icon">自提</i></a>
-             {/if}
-             {if condition="$vo.state == 0"}
-             <a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-primary delete" id="{$vo.id}" style="margin-right: 0;font-size:12px;"><i class="layui-icon">删除</i></a>
-            {/if}
+              <a href="{:url('admin/member/walletset',['id'=>$vo.id])}" class="layui-btn layui-btn-xs a_menu layui-btn-primary" style="margin-right: 0;font-size:12px;"><i class="layui-icon"></i></a>
+              <a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-primary delete" id="{$vo.id}" style="margin-right: 0;font-size:12px;"><i class="layui-icon"></i></a>
             </div>
           </td>
         </tr>
         {/volist}
       </tbody>
     </table>
-    {$order->render()}
     {include file="public/foot"}
     <script type="text/javascript">
 
@@ -110,7 +75,7 @@
       var id = $(this).attr('id');
       layer.confirm('确定要删除?', function(index) {
         $.ajax({
-          url:"{:url('admin/order/delete')}",
+          url:"{:url('admin/member/walletdel')}",
           data:{id:id},
           success:function(res) {
             layer.msg(res.msg);
@@ -123,30 +88,7 @@
         })
       })
     })
-
-
-      $('.ziti').click(function(){
-        var id = $(this).attr('id');
-        layer.confirm('确定要删除?', function(index) {
-          $.ajax({
-            type:"post",
-            url:"{:url('admin/order/ziti')}",
-            data:{"id":id},
-            success:function(res) {
-              layer.msg(res.msg);
-              if(res.code == 1) {
-                setTimeout(function(){
-                  location.href = res.url;
-                },1500)
-              }
-            },
-            error:function (XMLHttpRequest, textStatus, errorThrown) {
-              
-            }
-          })
-        })
-      })
-      </script>
+    </script>
     <script type="text/javascript">
 
     $('.is_top').click(function(){

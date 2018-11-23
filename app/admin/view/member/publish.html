@@ -126,6 +126,13 @@
       </div>
 
       <div class="layui-form-item">
+        <label class="layui-form-label">节点人</label>
+        <div div class="layui-input-block" style="max-width:600px;">
+          <input name="refree_node" autocomplete="off" placeholder="请输入节点人编号" class="layui-input" type="text" {notempty name="$member.refree_node"}value="{$member.refree_node}"{/notempty}>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
         <label class="layui-form-label">余额</label>
         <div div class="layui-input-block" style="max-width:600px;">
           <input name="price" autocomplete="off" placeholder="请谨慎设置余额" class="layui-input" type="text" {notempty name="$member.price"}value="{$member.price}"{/notempty}>

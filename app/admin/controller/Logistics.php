@@ -1,9 +1,13 @@
 <?php
  namespace app\admin\controller;
  use \think\Db;
+ use \think\Paginator;
+
 
  class Logistics extends Permissions
  {	
+	static $page=20;	
+
 	/**
 	 * 会员列表首页  
 	 */  
@@ -16,7 +20,7 @@
 		}
 		else
 		{
-			$logcom=Db::name('logcom')->select();
+			$logcom=Db::name('logcom')->paginate($this::$page);
 			$this->assign('logcom',$logcom);
 		}
 		

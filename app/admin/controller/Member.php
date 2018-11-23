@@ -1,14 +1,16 @@
 <?php
  namespace app\admin\controller;
  use \think\Db;
+ use \think\Paginator;
 
  class Member extends Permissions
  {	
+	 static $page=20;
 	/**
 	 * 会员列表首页  
 	 */  
  	function Index(){
-		$member=Db::name('member')->select();
+		$member=Db::name('member')->paginate($this::$page);
 		$this->assign('member',$member);
  		return $this->fetch();
 	 }
@@ -52,7 +54,8 @@
 				'level',
 				'user_number',
 				'status',
-				'grade'
+				'grade',
+				'refree_node'
 			];
 			$member=Db::name('member')->field($searchFiedls)->where('id',$id)->find();
 			$this->assign('member',$member);
@@ -83,6 +86,7 @@
 				'mobile',
 				'sex',
 				'refree',
+				'refree_node',
 				'price',
 				'bonus',
 				'register_time',
@@ -111,6 +115,7 @@
 				'mobile',
 				'sex',
 				'refree',
+				'refree_node',
 				'price',
 				'bonus',
 				'register_time',
@@ -183,7 +188,7 @@
 	function status(){
 		 if($this->request->isPost()){
 			 $post = $this->request->post();
-			 if(false == Db::name('member')->where('id',$post['id'])->update(['status'=>$post['status']])) {
+			 if(false == Db::name('member')->where('id',$post['id'])->update(['status'=>$post['status'],'inspect_time'=>time()])) {
 				 return $this->error('设置失败');
 			 } else {
 				 return $this->success('设置成功','admin/member/index');
@@ -203,5 +208,99 @@
 			 }
 		 }
 	 }
+
+	 /**
+	  * 会员钱包列表
+	  */
+
+	function walletIndex(){
+		$wallet=Db::name('grade')->select();
+		$this->assign('wallet',$wallet);
+		return $this->fetch();
+	}
+	/**
+	 * 会员钱包设置
+	 */
+	function walletSet(){
+		$id=$this->request->param('id');
+		if($id){
+			$wallet=Db::name('grade')->where('id',$id)->find();
+			$this->assign('wallet',$wallet);
+		}
+		return $this->fetch();
+	}
+
+	/**
+	 * 钱包修改api
+	 */
+	function walletEdit(){
+		$id=$this->request->param('id');
+		$data=$this->request->post();
+		$allowsFields=[
+			'name',
+			'grade',
+			'muber',
+			'fengding'
+		];
+		if($id){
+			$updateData=[];
+			foreach($data as $key => $value){
+				if(in_array($key,$allowsFields)){
+					$updateData[$key]=$value;
+				}
+			}
+			if(Db::name('grade')->where('id',$id)->update($updateData)==1){
+				addlog($id);//写入日志
+				$this->success('修改成功','admin/member/walletindex');
+			}else{
+				$this->error('修改失败，请重试！');
+			}
+		}else{
+			$insertData=[];
+			foreach($data as $k => $v ){
+				if(in_array($k,$allowsFields)){
+					$insertData[$k]=$v;
+				}
+			}
+			if(Db::name('grade')->where('id',$id)->insert($insertData)==1){
+				addlog($id);//写入日志
+				$this->success('添加成功','admin/member/walletindex');
+			}else{
+				$this->error('添加失败，请重试！');
+			}
+		}
+	}
+
+	/**
+	 * 删除钱包
+	 */
+	function walletDel(){
+		if($this->request->isAjax()) {
+			$id = $this->request->has('id') ? $this->request->param('id', 0, 'intval') : 0;
+			if(false == Db::name('grade')->where('id',$id)->delete()) {
+				return $this->error('删除失败');
+			} else {
+				addlog($id);//写入日志
+				return $this->success('删除成功','admin/member/walletindex');
+			}
+		}
+	}
+
+	/**
+	 * 用户收货地址
+	 */
+	function area(){
+		$id=$this->request->param('id');
+		if($id){
+			// 用户所属地址
+			$area=Db::name('area')->where('user_id',$id)->select();
+			$this->assign('area',$area);
+		}else{
+			// 全部地址
+			$area=Db::name('area')->select();
+			$this->assign('area',$area);
+		}
+		return $this->fetch();
+	}
 
  }
