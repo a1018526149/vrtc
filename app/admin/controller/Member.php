@@ -158,6 +158,7 @@
 				}
 			}
 			if(Db::name('level_config')->where('id',$id)->update($updateData)){
+				
 				$this->success('修改成功','admin/member/levelset');
 			}else{
 				$this->error('修改失败！');

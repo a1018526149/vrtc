@@ -164,3 +164,16 @@ function grade($grade){
      $number=$char.rand(10000,99999);
      return $number;
  }
+
+ //订单状态
+ function ddstate($state){
+    switch($state){
+        case 0:$state_1="未付款";break;
+        case 1:$state_1="已付款";break;
+        case 2:$state_1="已发货";break;
+        case 3:$state_1="已收货";break;
+        case 4:$state_1="预订成功";break;
+     }
+
+    return $state_1;
+ }
