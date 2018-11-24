@@ -177,6 +177,30 @@ function grade($grade){
 
     return $state_1;
  }
+ 
+  //充值类型
+ function czstate($state){
+    switch($state){
+        
+        case 1:$state_1="报单币";break;
+        case 2:$state_1="已发货";break;
+        case 3:$state_1="已收货";break;
+        case 4:$state_1="预订成功";break;
+     }
+
+    return $state_1;
+ }
+ //提现状态
+ function txstate($state){
+    switch($state){
+        case 0:$state_1="未审核";break;
+        case 1:$state_1="同意";break;
+        case 2:$state_1="拒绝";break;
+
+     }
+
+    return $state_1;
+ }
 
  /**
   * 通过id获取用户名
@@ -186,4 +210,14 @@ function grade($grade){
   function getUserName($id){
     $name=\think\Db::name('member')->field('user_name')->where('id',$id)->find();
     return $name['user_name'];
+  }
+
+  /**
+   * 通过id获取地址
+   * @param number $id 地址id
+   * @param string $nam 地址
+   */
+  function getArea($id){
+    $name=\think\Db::name('city')->where('id',$id)->find();
+    return $name['cityname'];
   }

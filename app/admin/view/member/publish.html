@@ -146,6 +146,34 @@
         </div>
       </div>
 
+      <div class="layui-form-item">
+        <label class="layui-form-label">银行卡号</label>
+        <div div class="layui-input-block" style="max-width:600px;">
+          <input name="bank" autocomplete="off" placeholder="请设置银行卡号" class="layui-input" type="text" {notempty name="$member.bank"}value="{$member.bank}"{/notempty}>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">银行名称</label>
+        <div div class="layui-input-block" style="max-width:600px;">
+          <input name="bank_name" autocomplete="off" placeholder="请输入银行名称" class="layui-input" type="text" {notempty name="$member.bank_name"}value="{$member.bank_name}"{/notempty}>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">开户名</label>
+        <div div class="layui-input-block" style="max-width:600px;">
+          <input name="account_name" autocomplete="off" placeholder="请输入开户名" class="layui-input" type="text" {notempty name="$member.account_name"}value="{$member.account_name}"{/notempty}>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">开户行</label>
+        <div div class="layui-input-block" style="max-width:600px;">
+          <input name="account_bank" autocomplete="off" placeholder="请输入开户行" class="layui-input" type="text" {notempty name="$member.account_bank"}value="{$member.account_bank}"{/notempty}>
+        </div>
+      </div>
+
       {notempty name="$member.id"}
       <input type="hidden" name="id" value="{$member.id}">
       {/notempty}

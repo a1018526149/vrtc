@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css"  media="all">
+  <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all" />
+  <link rel="stylesheet" href="__CSS__/admin.css"  media="all">
+  <style>
+  .opt{
+
+      float: left;
+      margin-left:0px;
+  }
+  </style>
+</head>
+<body style="padding:10px;">
+  <div class="tplay-body-div">
+        <div class="layui-tab">
+                <ul class="layui-tab-title">
+                  <li><a href="{:url('admin/member/area')}" class="a_menu">地址列表</a></li>
+                  <li class="layui-this">地址修改</li>
+                </ul>
+              </div> 
+    <div style="margin-top: 20px;">
+    </div>
+    <form class="layui-form" id="admin">
+       
+      <div class="layui-form-item">
+          <label class="layui-form-label">用户姓名</label>
+          <div class="layui-input-block" style="max-width:600px;">
+            <input name="user_name" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" type="text" readonly="readonly" {notempty name="$area.user_id"}value="{$area.user_id|getUserName}"{/notempty}>
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择地址</label>
+            <div class="layui-form opt" style="max-width:200px;" >
+                <select name="sheng"  id="sheng" lay-verify="required" lay-filter="sheng" >
+                  <option value=""></option>
+                  {volist name='sheng' id='vo'}
+                      <option value="{$vo.id}" >{$vo.cityname}</option>                
+                  {/volist}
+                </select>
+            </div>
+            <div class="layui-form opt" style="max-width:200px;" lay-filter="city">
+                <select name="shi" id="shi"  lay-verify="required"  lay-filter="shi">
+                  <option value=""></option>
+                </select>
+            </div>
+            <div class="layui-form opt" style="max-width:200px;" lay-filter="xian">
+                <select name="xian" id="xian"  lay-verify="required" >
+                  <option value=""></option>
+                </select>
+            </div>
+          </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-block" style="max-width:600px;">
+          <input name="area" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input" type="text" {notempty name="$area.area"}value="{$area.area}"{/notempty}>
+        </div>
+      </div>
+
+      {notempty name="$area.id"}
+      <input type="hidden" name="id" value="{$area.id}">
+      {/notempty}
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="admin">立即提交</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+      
+    </form>
+
+
+    <script src="__PUBLIC__/layui/layui.js"></script>
+    <script src="__PUBLIC__/jquery/jquery.min.js"></script>
+   
+
+        <script>
+            layui.use(['form', 'jquery'], function(){
+            var form = layui.form
+            ,$= layui.$;
+            
+                // var batch=$("#batch").val();
+                
+                form.on('select(sheng)', function(data){
+                    $('#shi').empty();
+                var sheng =$("#sheng").val();
+                    $.ajax({
+                        type: "get",
+                        url: "{:url('admin/member/getCity')}",
+                        data: {'city_id':sheng},
+                        success: function (res) {
+                            for(var i=0;i<res.length;i++){
+                                var opt=" <option value='"+res[i].id+"'>"+res[i].cityname+"</option>";
+                                $('#shi').append(opt);
+
+                            }
+                        form.render('select','city');
+                            
+                        }
+                    
+                    });
+                
+                }); 
+
+                form.on('select(shi)', function(data){
+                    $('#xian').empty();
+                    var shi =$("#shi").val();
+                    $.ajax({
+                        type: "get",
+                        url: "{:url('admin/member/getXian')}",
+                        data: {'xian_id':shi},
+                        success: function (res) {
+                            for(var i=0;i<res.length;i++){
+                                var opt=" <option value='"+res[i].id+"'>"+res[i].cityname+"</option>";
+                                $('#xian').append(opt);
+
+                            }
+                        form.render('select','xian');
+                        }
+                    });
+                });  
+            
+            });
+
+        
+        </script>
+
+
+    <script>
+        var message;
+        layui.config({
+            base: '__JS__/',
+            version: '1.0.1'
+        }).use(['app', 'message'], function() {
+            var app = layui.app,
+                $ = layui.jquery,
+                layer = layui.layer;
+            //将message设置为全局以便子页面调用
+            message = layui.message;
+            //主入口
+            app.set({
+                type: 'iframe'
+            }).init();
+        });
+    </script>
+    <script>
+      layui.use(['layer', 'form'], function() {
+          var layer = layui.layer,
+              $ = layui.jquery,
+              form = layui.form;
+          $(window).on('load', function() {
+              form.on('submit(admin)', function(data) {
+                  $.ajax({
+                      url:"{:url('admin/member/areaeditapi')}",
+                      data:$('#admin').serialize(),
+                      type:'post',
+                      async: false,
+                      success:function(res) {
+                          if(res.code == 1) {
+                              layer.alert(res.msg, function(index){
+                                location.href = res.url;
+                              })
+                          } else {
+                              layer.msg(res.msg);
+                          }
+                      }
+                  })
+                  return false;
+              });
+          });
+      });
+
+    </script>
+  </div>
+</body>
+</html>

@@ -5,7 +5,7 @@
 
  class Member extends Permissions
  {	
-	 static $page=20;
+	 static $page=20;//分页数量
 	/**
 	 * 会员列表首页  
 	 */  
@@ -55,7 +55,11 @@
 				'user_number',
 				'status',
 				'grade',
-				'refree_node'
+				'refree_node',
+				'bank',
+				'bank_name',
+				'account_name',
+				'account_bank'
 			];
 			$member=Db::name('member')->field($searchFiedls)->where('id',$id)->find();
 			$this->assign('member',$member);
@@ -92,7 +96,11 @@
 				'register_time',
 				'level',
 				'user_number',
-				'status'
+				'status',
+				'bank',
+				'bank_name',
+				'account_name',
+				'account_bank'
 			];
 			$updateData=[];
 			foreach($data as $key => $value){
@@ -122,7 +130,11 @@
 				'level',
 				'user_number',
 				'status',
-				'user_password'
+				'user_password',
+				'bank',
+				'bank_name',
+				'account_name',
+				'account_bank'
 			];
 			$insertData=[];
 			foreach($data as $k => $v){
@@ -303,4 +315,42 @@
 		return $this->fetch();
 	}
 
+	/**
+	 * 查看收货地址
+	 */
+	function areaEdit(){
+		$id=$this->request->param('id');
+		$area=Db::name('area')->where('id',$id)->find();
+		$sheng=Db::name('city')->where('type',1)->select();
+		$this->assign('sheng',$sheng);
+		$this->assign('area',$area);
+		return $this->fetch();
+	}
+	// 获取市
+	function getCity(){
+		$city_id=$this->request->param('city_id');
+		$city=Db::name('city')->where(['type'=>2,'pid'=>$city_id])->select();
+		return json($city);
+	}
+
+	// 获取县
+	function getXian(){
+		$xian_id=$this->request->param('xian_id');
+		$area=Db::name('city')->where(['type'=>3,'pid'=>$xian_id])->select();
+		return json($area);
+	}
+
+	/**
+	 * 修改收货地址
+	 */
+	function areaEditApi(){
+		$id=$this->request->param('id');
+		$data=$this->request->post();
+		$area=getArea($data['sheng'])."|".getArea($data['shi'])."|".getArea($data['xian']);
+		if(Db::name('area')->field(['area','update_time','address'])->where('id',$id)->update(['area'=>$data['area'],'update_time'=>time(),'address'=>$area])==1){
+			$this->success('修改成功','admin/member/area');
+		}else{
+			$this->error('修改失败，请重试！');
+		}
+	}
  }
