@@ -25,7 +25,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">商品名称</label>
         <div class="layui-input-block" style="max-width:600px;">
-          <input name="name" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text" {notempty name="$product.name"}value="{$product.name}"{/notempty}>
+          <input name="name" lay-verify="title" autocomplete="off" placeholder="请输入商品名称" class="layui-input" type="text" {notempty name="$product.name"}value="{$product.name}"{/notempty}>
         </div>
       </div>
 
@@ -44,7 +44,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">数量</label>
         <div class="layui-input-block" style="max-width:600px;">
-          <input name="amount" autocomplete="off" placeholder="标签之间用,隔开" class="layui-input" type="text" {notempty name="$product.amount"}value="{$product.amount}"{/notempty}>
+          <input name="amount" autocomplete="off" placeholder="请输入数量" class="layui-input" type="text" {notempty name="$product.amount"}value="{$product.amount}"{/notempty}>
         </div>
       </div>
 
@@ -52,6 +52,13 @@
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block" style="max-width:600px;">
           <textarea placeholder="请输入内容" class="layui-textarea" name="description">{notempty name="$product.description"}{$product.description}{/notempty}</textarea>
+        </div>
+      </div>
+
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">内容</label>
+        <div class="layui-input-block" style="max-width:1000px;">
+          <textarea placeholder="请输入内容" class="layui-textarea" name="content" id="container" style="border:0;padding:0">{notempty name="$product.content"}{$product.content}{/notempty}</textarea>
         </div>
       </div>
       
@@ -159,7 +166,18 @@
           });
       });
     </script>
-
+<!-- 加载编辑器的容器 -->
+<script id="container" name="content" type="text/plain">
+  这里写你的初始化内容
+</script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+  var ue = UE.getEditor('container');
+</script>
     
   </div>
 </body>

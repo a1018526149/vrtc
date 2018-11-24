@@ -40,20 +40,26 @@
             <label class="layui-form-label">选择地址</label>
             <div class="layui-form opt" style="max-width:200px;" >
                 <select name="sheng"  id="sheng" lay-verify="required" lay-filter="sheng" >
-                  <option value=""></option>
-                  {volist name='sheng' id='vo'}
-                      <option value="{$vo.id}" >{$vo.cityname}</option>                
+                    <option value=""></option>
+                    {volist name='sheng' id='vo'}
+                  <option value="{$vo.id}" {notempty name="$address.sheng.id"}{eq name="$address.sheng.id" value="$vo.id"} selected=""{/eq}{/notempty}>{$vo.cityname}</option>
                   {/volist}
                 </select>
             </div>
             <div class="layui-form opt" style="max-width:200px;" lay-filter="city">
                 <select name="shi" id="shi"  lay-verify="required"  lay-filter="shi">
                   <option value=""></option>
+                  {notempty name='address.city'}
+                  <option value="{$address.city.id}" selected>{$address.city.name}</option>
+                  {/notempty}
                 </select>
             </div>
             <div class="layui-form opt" style="max-width:200px;" lay-filter="xian">
                 <select name="xian" id="xian"  lay-verify="required" >
                   <option value=""></option>
+                  {notempty name='address.county'}
+                  <option value="{$address.county.id}" selected>{$address.county.name}</option>
+                  {/notempty}
                 </select>
             </div>
           </div>

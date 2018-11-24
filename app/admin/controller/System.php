@@ -60,6 +60,10 @@
 		}
 	 }
 
-
-
+	 /**
+	  * 推荐树状图
+	  */
+	 function treeTable(){
+		 return $this->fetch();
+	 }
  }

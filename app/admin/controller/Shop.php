@@ -47,7 +47,8 @@ class Shop extends Permissions
                 'description',
                 'amount',
                 'thumb',
-                'cateid'
+                'cateid',
+                'content'
             ];
             // 获取提交来的数据
             $data=$this->request->post();
@@ -78,7 +79,8 @@ class Shop extends Permissions
                 'description',
                 'amount',
                 'thumb',
-                'cateid'
+                'cateid',
+                'content'
             ];
             // 获取提交来的数据
             $post=$this->request->post();

@@ -10,7 +10,7 @@
 	 * 会员列表首页  
 	 */  
  	function Index(){
-		$member=Db::name('member')->paginate($this::$page);
+		$member=Db::name('member')->where('status',1)->paginate($this::$page);
 		$this->assign('member',$member);
  		return $this->fetch();
 	 }
@@ -34,6 +34,16 @@
 		}
 		return $this->fetch();
 	}
+
+	/**
+	 * 未注册会员
+	 */
+	function notreg(){
+		$member=Db::name('member')->where('status',0)->paginate($this::$page);
+		$this->assign('member',$member);
+		return $this->fetch();
+	}
+
 
 	/**
 	 * 会员信息查看/编辑
@@ -145,6 +155,14 @@
 			$insertData['register_time']=time();
 			if(empty($insertData)){
 				$this->error('添加失败！请重试');
+				die;
+			}
+			if(!Db::name('member')->where('user_number',$insertData['refree'])->find()){
+				$this->error('推荐人不存在');
+				die;
+			}
+			if(!Db::name('member')->where('user_number',$insertData['refree_node'])->find()){
+				$this->error('节点人不存在');
 				die;
 			}
 			if(Db::name('member')->insert($insertData)){
@@ -321,9 +339,11 @@
 	function areaEdit(){
 		$id=$this->request->param('id');
 		$area=Db::name('area')->where('id',$id)->find();
+		$address=exArea($area['address']);
 		$sheng=Db::name('city')->where('type',1)->select();
 		$this->assign('sheng',$sheng);
 		$this->assign('area',$area);
+		$this->assign('address',$address);
 		return $this->fetch();
 	}
 	// 获取市

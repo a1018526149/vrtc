@@ -221,3 +221,30 @@ function grade($grade){
     $name=\think\Db::name('city')->where('id',$id)->find();
     return $name['cityname'];
   }
+
+  /**
+   * 已生成的地址分隔
+   * @param string $area 地址
+   * @param string $name 分隔后地址
+   */
+  function exArea($area){
+    $name=explode('|',$area);
+    $area_id=\think\Db::name('city')->field('id')->where('cityname',$name[0])->find();
+    $city_id=\think\Db::name('city')->field('id')->where('cityname',$name[1])->find();
+    $county_id=\think\Db::name('city')->field('id')->where('cityname',$name[2])->find();
+    $address=[
+        'sheng'=>[
+            'id'=>$area_id['id'],
+            'name'=>$name[0]
+        ], 
+        'city'=>[
+            'id'=>$city_id['id'],
+            'name'=>$name[1]
+        ],
+        'county'=>[
+            'id'=>$county_id['id'],
+            'name'=>$name[2]
+        ]
+    ];
+    return $address;
+  }
