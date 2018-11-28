@@ -17,29 +17,29 @@
             <li>
                 <span><i class="fa fa-minus-circle"></i>系统</span>
                 <ul>
+                    {volist name='topMember' id='vo'}
                     <li>
-                        <span><i class="fa fa-minus-circle"></i>一年级</span>
+                        <span><i class="fa fa-minus-circle"></i>{$vo.user_name}</span>
                         <ul>
-                            <li><span>一班</span></li><li><span>二班</span></li>
+                            {volist name='secondMember' id='v'}
+                            {if condition="$vo.user_number==$v.refree "}
+                            <li>
+                                <span>{$v.user_name}</span>
+                                    <ul>
+                                        {volist name='threeMember' id='vol'}
+                                        {if condition="$v.user_number==$vol.refree "}
+                                        <li>
+                                            <span>{$vol.user_name}</span>
+                                        </li>
+                                        {/if}
+                                        {/volist}
+                                    </ul>
+                            </li>
+                            {/if}
+                            {/volist}
                         </ul>
                     </li>
-                    <li>
-                        <span><i class="fa fa-minus-circle"></i>一年级</span>
-                        <ul>
-                            <li><span>一班</span></li><li><span>二班</span></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <span>二年级</span>
-                    </li>
-                    <li>
-                        <span><i class="fa fa-minus-circle"></i>三年级</span>
-                        <ul>
-                            <li><span>一班</span></li>
-                            <li><span>二班</span></li>
-                            <li><span>三班</span></li>
-                        </ul>
-                    </li>
+                    {/volist}
                 </ul>
             </li>
         </ul>

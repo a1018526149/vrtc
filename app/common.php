@@ -139,6 +139,88 @@ function SendSms($param,$phone)
     $resp = $c ->execute($req);
 }
 
+ //订单状态
+ function ddstate($state){
+    switch($state){
+        case 0:$state_1="未付款";break;
+        case 1:$state_1="已付款";break;
+        case 2:$state_1="已发货";break;
+        case 3:$state_1="已收货";break;
+        case 4:$state_1="预订成功";break;
+     }
+
+    return $state_1;
+ }
+ 
+  //充值类型
+ function czstate($state){
+    switch($state){
+        
+        case 1:$state_1="报单币";break;
+        case 2:$state_1="已发货";break;
+        case 3:$state_1="已收货";break;
+        case 4:$state_1="预订成功";break;
+     }
+
+    return $state_1;
+ }
+ //提现状态
+ function txstate($state){
+    switch($state){
+        case 0:$state_1="未审核";break;
+        case 1:$state_1="同意";break;
+        case 2:$state_1="拒绝";break;
+
+     }
+
+    return $state_1;
+ }
+//转账状态
+ function zzstate($state){
+    switch($state){
+        case 0:$state_1="未成功";break;
+        case 1:$state_1="成功";break;
+        case 2:$state_1="拒绝";break;
+
+     }
+
+    return $state_1;
+ }
+ 
+ //转账状态
+ function zztype($state){
+    switch($state){
+        case 1:$state_1="报单币";break;
+        case 2:$state_1="奖金";break;
+
+     }
+
+    return $state_1;
+ }
+
+//奖金类型
+ function jjtype($state){
+    switch($state){
+        case 1:$state_1="收入";break;
+        case 2:$state_1="支出";break;
+     }
+
+    return $state_1;
+ }
+
+
+//奖金摘要
+ function jjmemo($state){
+	 $state_1="";
+    switch($state){
+        case 1:$state_1="充值";break;
+		case 3:$state_1="提现";break;
+        case 15:$state_1="提现手续费";break;
+		case 20:$state_1="推荐奖";break;
+     }
+
+    return $state_1;
+ }
 
 /**
  * 替换手机号码中间四位数字
@@ -148,4 +230,14 @@ function SendSms($param,$phone)
 function hide_phone($str){
     $resstr = substr_replace($str,'****',3,4);  
     return $resstr;  
+}
+
+/**
+ * 获取推荐人姓名
+ * @param string $refree 推荐人
+ * @param string $name   名字
+ */
+function getRefreeName($refree){
+    $member=\think\Db::name('member')->field(['user_name','user_number','refree'])->where('refree',$refree)->select();
+    return $member;
 }

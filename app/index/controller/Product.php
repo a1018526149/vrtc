@@ -1,4 +1,8 @@
 <?php
+/**
+ * 商品页
+ * @author 李财 2018/11/28
+ */
 namespace app\index\controller;
 
 use \think\Db;

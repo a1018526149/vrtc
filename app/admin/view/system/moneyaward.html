@@ -22,9 +22,43 @@
     <form class="layui-form" id="admin">
         <TABLE class="layui-table" lay-size="sm">
           <TBODY>
-           <TR>
-            <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>当前奖金池</strong></TD>
-            <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" ><input name="hcrate" type="text" value="{$setting.hcrate}"  size="15">元</TD>
+             <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>量奖</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" ><input name="pdj" type="text" value="{$setting.pdj}"  size="15">元</TD>
+             </TR>
+             <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>K价格</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" ><input name="intocx" type="text" value="{$setting.intocx}"  size="15">元一个K</TD>
+             </TR>
+             <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>分红</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" >每天K分红<input name="fhrate" type="text" value="{$setting.fhrate}"  size="15">元</TD>
+             </TR>
+             <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>分红天数</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" >每个K分红<input name="tax" type="text" value="{$setting.tax}"  size="15">天</TD>
+             </TR>
+              <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>购买K</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" >每天最多购买<input name="intojj" type="text" value="{$setting.intojj}"  size="15">个K</TD>
+             </TR>
+             <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>推荐奖</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" >直推五代主账号（含子账号）商城消费的<input name="bdcxrate" type="text" value="{$setting.bdcxrate}"  size="15">%</TD>
+             </TR>
+             <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>提现</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" >
+                    提现金额至少
+        <input name="withdraw_low" type="text" id="withdraw_low" value="{$setting.withdraw_low}" size="7">
+        元，且为100的整数倍&nbsp;&nbsp;&nbsp;
+	  提现手续费&nbsp;
+	  <input name="withdraw_fee" type="text" value="{$setting.withdraw_fee}" size="7">%<br>
+              </TD>
+             </TR>
+             <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>当前奖金池</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" ><input name="hcrate" type="text" value="{$setting.hcrate}"  size="15">元</TD>
             </TR>
             <TR>
                 <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>奖金转K</strong></TD>
@@ -34,6 +68,10 @@
                     <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>当前K</strong></TD>
                     <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" >当前<input name="recommend" type="text" value="{$setting.recommend}"  size="15">K</TD>
                     </TR>
+            <TR>
+              <TD width="9%" align="left" valign="middle" bgColor="#FBFDFF"><strong>开通子账户</strong></TD>
+              <TD width="18%" align="left" valign="middle" bgColor="#FBFDFF" ><input name="bddprate" type="text" value="{$setting.bddprate}"  size="15">元</TD>
+             </TR>
             <TD background="images/tab_19.gif" colspan="2" align="center" valign="middle">
               <input type="hidden" name="id" value="{$setting.id}">
               <div class="layui-form-item">

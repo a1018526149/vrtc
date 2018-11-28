@@ -49,7 +49,7 @@
 				$this->error('修改失败，请重试！');
 			}else{
 				Db::name('setting')->where('id',$id)->update($updateData);
-				//addlog($id);
+				addlog($id);
 				$this->success('修改成功！','admin/system/moneyaward');
 			}
 			
@@ -64,6 +64,30 @@
 	  * 推荐树状图
 	  */
 	 function treeTable(){
-		 return $this->fetch();
+		$topMember=getRefreeName('0');
+		$topname=[];
+		foreach($topMember as $key => $value ){
+			$topname[$key]=$value['user_number'];
+		}
+		// dump($topMember);
+		foreach($topname as  $v ){
+		$tempMember=getRefreeName($v);
+		$secondMember=array_filter($tempMember);
+		// dump($secondMember);
+			foreach($secondMember as $key => $value ){
+				$threeMember=getRefreeName($value['user_number']);
+				$this->assign('threeMember',$threeMember);
+			}
+		$this->assign('topMember',$topMember);
+		$this->assign('secondMember',$secondMember);
+		return $this->fetch();
+		}
 	 }
+
+	 /**
+	  * 网状关系图
+	  */
+	function meshPlots(){
+		return $this->fetch();
+	}
  }

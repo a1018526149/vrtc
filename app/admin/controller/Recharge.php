@@ -15,7 +15,7 @@
 		$keywords=$this->request->param('keywords');
 		if($keywords)
 		{
-			$recharge=Db::name('recharge')->where('username = "'.$keywords.'" or  realname = "'.$keywords.'"')->order("id desc")->paginate($this::$page);
+			$recharge=Db::name('recharge')->where('username = "'.$keywords.'" or  realname = "'.$keywords.'"')->order("id desc")->paginate($this::$page,false,['query'=>$this->request->param()]);
 			$this->assign('recharge',$recharge);
 		}
 		else
@@ -70,8 +70,6 @@
 			if(!empty($updateData["username"]))
 			{
 				$user1=Db::name('member')->where('user_number',$updateData["username"])->find();
-				 //$this->error('充值失败！会员名不存在'.$updateData["username"]);
-//			      die;
 				if($user1)
 				{
 				    
@@ -84,6 +82,15 @@
 					$userData=[];
 					$userData["price"]=$money;
 					Db::name('member')->where('user_number',$updateData["username"])->update($userData);
+					$insertData["username"]=$user1["user_number"];
+					$insertData["memo"]=1;
+					$insertData["type"]=1;
+					$insertData["addtime"]=time();
+					$insertData["money"]=$updateData["money"];
+					$insertData["memo1"]="后台充值报单币";
+					$insertData["type1"]=1;
+					$insertData["rank"]=0;
+					Db::name('e')->insert($insertData);
 				}
 				else
 				{

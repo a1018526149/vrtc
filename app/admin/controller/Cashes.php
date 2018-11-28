@@ -15,7 +15,7 @@
 		$keywords=$this->request->param('keywords');
 		if($keywords)
 		{
-			$cashes=Db::name('cashes')->where('company',$keywords)->order("id desc")->paginate($this::$page);
+			$cashes=Db::name('cashes')->where('username',$keywords)->order("id desc")->paginate($this::$page,false,['query'=>$this->request->param()]);
 			$this->assign('cashes',$cashes);
 		}
 		else
@@ -38,6 +38,34 @@
 			    $cashiesFields["state"]=1;
 			    Db::name('cashes')->where('id',$id)->update($cashiesFields);
 				addlog($id);//写入日志
+				$cashes=Db::name('cashes')->where('id',$id)->find();
+				$insertData=[];
+				$insertData["username"]=$cashes["username"];
+				$insertData["memo"]=3;
+				$insertData["type"]=2;
+				$insertData["addtime"]=time();
+				$insertData["money"]=$cashes["price"]-$cashes["fee"];
+				$insertData["memo1"]="提现编号".$id;
+				$insertData["type1"]=1;
+				$insertData["rank"]=0;
+				Db::name('e')->insert($insertData);
+				if($cashes["fee"]>0)
+				{
+					$insertData=[];
+					$insertData["username"]=$cashes["username"];
+					$insertData["memo"]=15;
+					$insertData["memo"]=15;
+					$insertData["type"]=2;
+					$insertData["addtime"]=time();
+					$insertData["money"]=$cashes["fee"];
+					$insertData["memo1"]="提现编号".$id;
+					$insertData["type1"]=1;
+					$insertData["rank"]=0;
+					Db::name('e')->insert($insertData);
+				}        
+                
+
+				
 				return $this->success('同意成功','admin/cashes/index');
 			}
 		}
