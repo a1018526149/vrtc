@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="height=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <title>注册页</title>
+    <link rel="stylesheet" href="__CSS__/style.css" type="text/css" />
+    <link rel="stylesheet" href="__CSS__/register_product.css" type="text/css" />
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.css" type="text/css" />
+    
+</head>
+
+<body>
+<div class="login_bg">
+<div class="regTop">
+            <a class="back" href="{:url('index/login/index')}"><img src="__IMG__/fh.png"></a>
+        </div>
+    
+    <div class="logo"><img src="__IMG__/logo1.png"></div>
+    
+    <div class="aa">用户注册</div>
+    <!-- 顶部 -->
+    <div class="middle">
+      {volist name='product' id='vo'}
+        <img src="{$vo.thumb|geturl}" alt="..." class="img-rounded middle-img" >
+        <p class="img-text">{$vo.description}</p>
+        <div class="radio radio-middle">
+                <label>
+                  <input type="radio" name="optionsRadios" class="optionsRadios" id="optionsRadios2" value="{$vo.id}" >
+                </label>
+        </div>
+      {/volist} 
+
+    </div>
+    <!-- 底部 -->
+    <a href="#" class="btn btn-danger sub">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</a>
+</div>
+</body>
+<script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
+<script>
+  $('.optionsRadios').click(function(){
+    var val=$(this).val();
+    // console.log(val);
+    $('.sub').attr('value',val);
+  });
+  $('.sub').click(function(){
+    var id=$('.sub').attr('value');
+    console.log(id);
+    
+    var conf=confirm('确定提交吗？');
+    if(id==undefined){
+      alert('请选择产品');
+    }else{
+      if(conf==true){
+          $.ajax({
+          type: "post",
+          url: "{:url('index/register/selectproduct')}",
+          data: {'id':id},
+          success: function (res) {
+            alert(res.message);
+            if(res.code=='success'){
+              window.location.href='{:url("index/register/shop")}';
+            }
+            
+          }
+        });
+      }
+    }
+    
+    // console.log(id);
+    
+    
+  });
+</script>
+</html>

@@ -89,7 +89,7 @@
           <th>用户编号</th>
           <th>等级</th>
           <th>级别</th>
-          <th>手机号</th>
+          <th>区位</th>
           <th>性别</th>
           <th>推荐人</th>
           <th>节点人</th>
@@ -110,7 +110,7 @@
           <td>{$vo.user_number}</td>
           <td>{$vo.level|level}</td>
           <td>{$vo.grade|grade}</td>
-          <td>{$vo.mobile}</td>
+          <td>{$vo.pos|pos1}</td>
           <td>
               {if condition="$vo.sex == 1 "}
                男
@@ -212,7 +212,9 @@
         success:function(res){
           
           if(res.code == 1) {
-            tostatus();
+            layer.alert(res.msg, function(index){
+                                location.href = res.url;
+                              })
           } else {
             layer.msg(res.msg);
           }

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>提货方式</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/shop.css"/>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!--演示页面样式，使用时可以不引用-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
+	<link rel="stylesheet" href="__CSS__/icheck-bootstrap.css">
+
+    <style>
+        input::-webkit-input-placeholder{
+            color:#333;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#333;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#333;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#333;
+        }
+        .alert{
+            position: relative;
+            top:-47px;left:14px;
+            float:right;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="login_bg">
+    
+
+    
+        <div class="logo"><img src="__IMG__/logo1.png"></div>
+
+        <div class="sy_login">
+            <span>选择提货方式</span>
+        </div>
+        
+       <div class="login">
+       
+
+           
+           <div class="radio icheck-amethyst">
+            <input type="radio" id="amethyst1" name="amethyst" />
+            <label for="amethyst1">店铺自提</label>
+           </div>
+
+       
+           <div class="radio icheck-amethyst">
+			<input type="radio" checked id="amethyst2" name="amethyst" />
+			<label for="amethyst2">物流配送</label>
+	  	   </div>
+
+      
+        <div id="middle">
+                <div class="c1">
+                        <label >收货人</label>
+                            <div class="userName name">
+                                <input type="text" name="name" id="name"  required />
+                            </div>
+                       </div>
+                       
+                       <div class="c1">
+                       <label >联系电话</label>
+                            <div class="userName tel">
+                                <input type="text" name="tel" id="tel" required />
+                            </div>
+                       </div>
+                        
+                       <div class="c1">
+                       <label >所在地区</label>
+                            <div class="userName region">
+                                <input type="text" name="region" id="region"  required/>
+                            </div>
+                       </div>
+                       <div class="c1">
+                       <label >详细地址</label>
+                            <div class="userName address">
+                                <input type="text" name="address" id="address" required/>
+                            </div>
+                       </div>
+        </div>
+        
+       
+       
+       
+       
+       
+
+       <button class="login_dl" type="submit" value="2">确&nbsp;&nbsp;定</button>
+       
+       
+
+           
+                
+                
+
+                
+                
+
+       
+       
+       
+     </div>
+     
+     
+          
+     
+     
+    </div>
+    <div id="selArea">
+        <img src="__IMG__/close.png" class='closeArea' alt="" width="40px" height="40px">
+        <div>
+            <label for="" id="label">选择省</label>
+            <select class="form-control sheng" style="max-width:78%;">
+                    <option>请选择</option>
+                    {volist name='sheng' id='v'}
+                    <option value="{$v.id}">{$v.cityname}</option>
+                    {/volist}
+            </select>
+            <label for="" id="label">选择市</label>
+            <select class="form-control shi" style="max-width:78%;">
+                    <option>请先选择省</option>
+            </select>
+            <label for="" id="label">选择县</label>
+            <select class="form-control xian" style="max-width:78%;">
+                    <option>请先选择市</option>
+            </select>
+            <button type="button" class="btn btn-info put" style="width:77%;">确定</button>
+    </div>
+    </div>
+</body>
+<script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
+<script>
+    // 点击地区输入框弹出选择地区
+    $('#region').click(function(){
+        $('#selArea').attr('style','display:block;');
+    });
+    // 关闭地区选择
+    $('.closeArea').click(function(){
+        $('#selArea').attr('style','display:none;');
+    });
+    // 点击店铺自提隐藏输入框
+    $('#amethyst1').click(function(){
+        $('#middle').attr('style','display:none');
+        $('.login_dl').attr('value','1');
+    });
+    // 加载市区信息
+    $('.sheng').change(function(){
+        $('.shi').empty();
+        $('.xian').empty();
+        $('.xian').append('<option>请先选择市</option>');
+       var sheng=$(".sheng").find("option:selected").val();
+       if(sheng!==""){
+           $.ajax({
+               type: "post",
+               url: "{:url('index/register/getcity')}",
+               data: {'city_id':sheng},
+               success: function (res) {
+                   for(var i=0;i<res.length;i++){
+                        $('.shi').append('<option value='+res[i].id+'>'+res[i].cityname+'</option>');
+                   }
+               }
+           });
+       }
+       
+    });
+    // 加载县级信息
+    $('.shi').click(function(){
+        $('.xian').empty();
+        var shi=$(".shi").find("option:selected").val();
+            $.ajax({
+                type: "post",
+                url: "{:url('index/register/getxian')}",
+                data: {'xian_id':shi},
+                success: function (res) {
+                    for(var i=0;i<res.length;i++){
+                        $('.xian').append('<option value='+res[i].id+'>'+res[i].cityname+'</option>');
+                   }
+                }
+            });
+    });
+    // 提交区域信息
+    $('.put').click(function(){
+        var sheng=$(".sheng").find("option:selected").val();
+        var shi=$(".shi").find("option:selected").val();
+        var xian=$(".xian").find("option:selected").val();
+        var area=sheng+'|'+shi+'|'+xian;
+        $.ajax({
+            type: "post",
+            url: "{:url('index/register/getarea')}",
+            data: {'sheng':sheng,'shi':shi,'xian':xian},
+            success: function (res) {
+                $('#region').attr('value',res);
+                $('#selArea').attr('style','display:none;');
+
+            }
+        });
+        
+    });
+
+    // 点击物流配送显示输入框
+    $('#amethyst2').click(function(){
+        $('#middle').attr('style','display:block');
+        $('.login_dl').attr('value','2');
+    });
+    //点击输入框清除警告信息
+    $('#name').click(function(){
+        $('.name_alert').remove();
+    });
+    $('#tel').click(function(){
+        $('.tel_alert').remove();
+    });
+    $('#region').click(function(){
+        $('.region_alert').remove();
+    });
+    $('#address').click(function(){
+        $('.address_alert').remove();
+    });
+    // 提交数据
+    $('.login_dl').click(function(){
+       var subtype=$(this).attr('value');
+       if(subtype=='2'){
+           //选择物流配送时
+            var name=$('#name').val();
+            var tel=$('#tel').val();
+            var region=$('#region').val();
+            var address=$('#address').val();
+            if(name==""){
+                $('.name_alert').remove();
+                $('.name').append('<p class="name_alert alert" style="color:red;">收货人不能为空</p>');
+            }else if(tel==""){   
+                $('.tel_alert').remove();             
+                $('.tel').append('<p class="tel_alert alert" style="color:red;">联系电话不能为空</p>');
+            }else if(region==""){
+                $('.region_alert').remove(); 
+                $('.region').append('<p class="region_alert alert" style="color:red;">所在地区不能为空</p>');
+            }else if(address==""){
+                $('.address_alert').remove(); 
+                $('.address').append('<p class="address_alert alert" style="color:red;">详细地址不能为空</p>');
+            }else{
+                $.ajax({
+                    type: "post",
+                    url: "{:url('index/register/putshopdata')}",
+                    data: {'name':name,'mobile':tel,'address':region,'area':address},
+                    success: function (res) {
+                        alert(res.message);
+                        if(res.code=='success'){
+                            window.location.href='{:url("index/register/thesuccess")}';
+                        }
+                    }
+                });
+            }
+
+            
+       }else{
+           $.ajax({
+                type: "post",
+                url: "{:url('index/register/putshopdata')}",
+                data: {'self':'1'},
+                success: function (res) {
+                    alert(res.message);
+                    if(res.code=='success'){
+                        window.location.href='{:url("index/register/thesuccess")}';     
+                    }               
+                }
+           });
+           
+       }
+    });
+</script>
+</html>

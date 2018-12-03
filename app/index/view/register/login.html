@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>注册页</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/login.css"/>
+
+    <style>
+        input::-webkit-input-placeholder{
+            color:#333;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#333;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#333;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#333;
+        }
+        .alert{
+            position: relative;
+            top:-30px;left:0px;
+            float:right;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="login_bg">
+    
+    <div class="fh">
+    <a href="" class="login_fh"><img src="__IMG__/fh.png"></a>
+    </div>
+    
+        <div class="logo"><img src="__IMG__/logo1.png"></div>
+
+        <div class="sy_login">
+            <span>用户注册</span>
+        </div>
+        
+       <div class="login">
+       
+       <div class="c1">
+            <div class="userName name">
+                <input type="text" name="name" id="name" placeholder="姓名" />
+            </div>
+       </div>
+       <div class="c1">
+            <div class="userName number">
+                <input type="text" name="number"  id="number" placeholder="账号" pattern="[0-9A-Za-z]{6,16}" required  value="{$num}"/>
+            </div>
+       </div>
+       
+       <div class="c1">
+            <div class="userName phone1">
+                <input type="text" id="phone1" placeholder="手机号" autocomplete="off"/>	
+            </div>
+       </div>
+            
+       <div class="c1" style="background-color: transparent;">
+			<div class="c2">
+            <div class="verif">
+					<input id="code1" type="text" autocomplete="off" placeholder="手机验证码"/>
+               </div>     
+                    	</div>	
+                   <div id="c3">     				
+					<input id="btnSendCode1" type="button" class="btn btn-default" value="获取验证码" onClick="sendMessage1()" />
+						
+			</div> 	
+        </div>
+       
+       
+       
+       	<script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
+		<script type="text/javascript">
+			var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;//手机号正则 
+			var count = 60; //间隔函数，1秒执行
+			var InterValObj1; //timer变量，控制时间
+			var curCount1;//当前剩余秒数
+			/*第一*/
+			function sendMessage1() {
+				curCount1 = count;		 		 
+				var phone = $.trim($('#phone1').val());
+				if (!phoneReg.test(phone)) {
+					alert(" 请输入有效的手机号码"); 
+					return false;
+				}
+				//设置button效果，开始计时
+				$("#btnSendCode1").attr("disabled", "true");
+				$("#btnSendCode1").val( + curCount1 + "秒再获取");
+				InterValObj1 = window.setInterval(SetRemainTime1, 1000); //启动计时器，1秒执行一次
+				//向后台发送处理数据
+					 
+			}
+			function SetRemainTime1() {
+				if (curCount1 == 0) {                
+					window.clearInterval(InterValObj1);//停止计时器
+					$("#btnSendCode1").removeAttr("disabled");//启用按钮
+					$("#btnSendCode1").val("重新发送");
+				}
+				else {
+					curCount1--;
+					$("#btnSendCode1").val( + curCount1 + "秒再获取");
+				}
+			} 
+			
+			/*提交*/
+			function binding(){
+				alert(1)
+			}
+		</script>
+        
+        <div class="c1">
+            <div class="userName refree">
+                <input type="text" name="tjnumber" id="tjnumber" placeholder="推荐码" pattern="[0-9A-Za-z]{6,16}" required />
+            </div>
+       </div>
+        
+       <div class="c1">
+            <div class="passWord login_password">
+                <input type="password" name="login_password" id="login_password" placeholder="登录密码"  required/>
+            <!-- pattern="[0-9A-Za-z]{6,25}" -->
+            </div>
+       </div>
+       <div class="c1">
+            <div class="passWord password">
+                <input type="password" name="password" id="password" placeholder="确认密码"  required/>
+            </div>
+       </div>
+       
+       
+       
+       
+       
+
+       <button class="login_dl" type="submit">注&nbsp;&nbsp;册</button>
+       
+       
+
+           
+                
+                
+
+                
+                
+
+       
+       
+       
+     </div>
+     
+     
+          
+     
+     
+    </div>
+
+    <script>
+        /*
+        *点击输入框清除警告信息
+        */
+        $('#name').click(function(){
+            $('.name_alert').remove();
+        });
+        $('#phone1').click(function(){
+            $('.phone_alert').remove();
+        });
+        $('#tjnumber').click(function(){
+            $('.refree_alert').remove();
+        });
+        $('#login_password').click(function(){
+            $('.login_password_alert').remove();
+        });
+        $('#password').click(function(){
+            $('.password_alert').remove();
+        });
+        /*
+        *验证以及提交
+        */
+        $('.login_dl').click(function(){
+            var name=$('#name').val();
+            var number=$('#number').val();
+            var phone1=$('#phone1').val();
+            var refree=$('#tjnumber').val();
+            var code=$('#code1').val();
+            var login_password=$('#login_password').val();
+            var password=$('#password').val();
+            if(name==""){
+                $('.name_alert').remove();
+                $('.name').append("<p class='name_alert alert' style='color:red;'>姓名不能为空</p>");
+            }else if(phone1==""){
+                $('.phone1_alert').remove();
+                $('.phone1').append("<p class='phone_alert alert' style='color:red;'>手机号不能为空</p>");                
+            }else if(code==""){
+                alert('请输入验证码');                
+            }else if(refree==""){    
+                $('.refree_alert').remove();   
+                $('.refree').append("<p class='refree_alert alert' style='color:red;'>推荐人不能为空</p>");
+            }else if(login_password==""){
+                $('.login_password_alert').remove();
+                $('.login_password').append("<p class='login_password_alert alert' style='color:red;'>密码不能为空</p>");                
+            }else if(password!==login_password){
+                $('.password_alert').remove();
+                $('.password').append("<p class='password_alert alert' style='color:red;'>两次密码输入不一致</p>");                
+            }else{
+                $.ajax({
+                    type: "post",
+                    url: "{:url('index/register/register')}",
+                    data: {'user_name':name,'user_number':number,'mobile':phone1,'refree':refree,'user_password':password},
+                    success: function (res) {
+                        alert(res.message);
+                        if(res.code=='success'){
+                            window.location.href='{:url("index/register/product")}'+'?number='+number;
+                        }
+                    },
+                    error:function(){
+                        alert('注册失败，请重试');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

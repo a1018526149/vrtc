@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => '122.114.219.192',
     // 数据库名
-    'database'        => 'tplay',
+    'database'        => 'vrtc_guangtuoit',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'vrtc_guangtuoit',
     // 密码
-    'password'        => 'root',
+    'password'        => 'GWCWdZDNNhMwQF7y',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

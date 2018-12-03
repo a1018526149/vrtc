@@ -1,113 +1,251 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>我的</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css"  media="all">
-    <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all" />
-    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.css" media="all" /> 
-    <link rel="stylesheet" href="__CSS__/publish.css" media="all" /> 
-    <link rel="stylesheet" href="__CSS__/user.css" media="all" /> 
-    <script src="__PUBLIC__/jquery/jquery.min.js"></script>
-    <script>
-        $(function(){
-            $('#user').attr('style','color:rgb(21,158,252,0.9);');
-        });
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>主页</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/zhuye.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.css" type="text/css" />
+    
+     <link rel="stylesheet" type="text/css" href="__CSS__/nav.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/fonts/iconfont.css">
+	
+    <script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
+	
+	<!--演示页面样式，使用时可以不引用-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
+	<link rel="stylesheet" href="__PUBLIC__/bootstrap/css/icheck-bootstrap.css">
+    
+    <script type="text/javascript" src="__PUBLIC__/jquery/jquery-latest.js"></script>
+    <script type="text/javascript">
+        function fontSize(){
+            var deviceWidth=document.documentElement.clientWidth>768?768:document.documentElement.clientWidth;
+            document.documentElement.style.fontSize=(deviceWidth/25)+"px";
+        }
+        fontSize();
+        window.onresize=fontSize;
     </script>
+
+    <style>
+        input::-webkit-input-placeholder{
+            color:#333;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#333;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#333;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#333;
+        }
+
+    </style>
 </head>
 <body>
-    <!-- 顶部 -->
-    <div class="top-bg">
-        <div class="author-user"><img src="__IMG__/author.png" alt=""></div>
-        <p>会员名:{$member.user_name}</p>
-        <p>推荐人:{$member.refree}</p>
-        <p>大会员:{$member.level}</p>
-        <div class="price">
-            <h2>余额：{$member.price} 元</h2>
+
+
+    <div class="login_bg">
+    
+        <div class="logo"><img src="__IMG__/logo1.png"></div>
+        
+        
+        <div class="topright">
+        		
+                <div class="box1">账号：vrtc0001</div>
+                
+                <div class="box1">荣誉级别：无</div>
+                
+                <div class="box1">钱包等级：一级</div>
+                
+                <div class="box1">账户状态：未激活</div>      
+       
         </div>
+        
+        <div class="topbom">
+           
+           <div class="box2"> 
+           		1000金币<br>
+          <button type="button">提现</button>
+           </div>
+           <div class="box2"> 
+           		1000钻石<br>
+          <button type="button">充值</button>
+           </div>
+           <div class="box2"> 
+           		1000VRTC<br>
+          <button type="button">购买</button>
+           </div>
+        </div>
+        
+        
+        <div class="chart">
+        	
+            <div class="chartit">
+            <button type="button">交易</button>
+            
+            <h3>VRTC价格走势图</h3>
+            
+            <h4>当日价格：4.3元</h4>
+            
+            </div>
+        
+        
+        	<img src="__IMG__/tb.png">
+        
+        </div>
+        
+       <div class="aui-grids">
+        
+        <a href="" class="aui-grids-item"> 
+        	<div class="aui-grids-item-icon">
+            
+            <img src="__IMG__/t1.png">
+            
+            </div>
+            
+            <div class="aui-grids-item-text">
+            我的钱包
+            </div>
+        
+        </a>
+        
+        
+        <a href="" class="aui-grids-item"> 
+        	<div class="aui-grids-item-icon">
+            
+            <img src="__IMG__/t2.png">
+            
+            </div>
+            
+            <div class="aui-grids-item-text">
+            VR商城
+            </div>
+        
+        </a>
+        
+        
+        <a href="" class="aui-grids-item"> 
+        	<div class="aui-grids-item-icon">
+            
+            <img src="__IMG__/t3.png">
+            
+            </div>
+            
+            <div class="aui-grids-item-text">
+            新闻公告
+            </div>
+        
+        </a>
+        
+        </div>
+        
+<div class="middle">        
+    <div class="nav">
+       
+        <ul>
+            <li class="nav-item">
+                <a href="javascript:;"><i class="my-icon nav-icon icon_1"></i><span>会员激活</span><i class="my-icon nav-more"></i></a>
+                <ul>
+                    <li><a href="javascript:;"><span>链接一</span></a></li>
+                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    
+                </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a href="javascript:;"><i class="my-icon nav-icon icon_2"></i><span>市场管理</span><i class="my-icon nav-more"></i></a>
+                <ul>
+                    <li><a href="javascript:;"><span>链接一</span></a></li>
+                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    
+                </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a href="javascript:;"><i class="my-icon nav-icon icon_3"></i><span>个人中心</span><i class="my-icon nav-more"></i></a>
+                <ul>
+                    <li><a href="javascript:;"><span>链接一</span></a></li>
+                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    
+                </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a href="javascript:;"><i class="my-icon nav-icon icon_4"></i><span>信息交流</span><i class="my-icon nav-more"></i></a>
+                <ul>
+                    <li><a href="javascript:;"><span>链接一</span></a></li>
+                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    
+                </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a href="javascript:;"><i class="my-icon nav-icon icon_5"></i><span>复投K值</span><i class="my-icon nav-more"></i></a>
+                <ul>
+                    <li><a href="javascript:;"><span>链接一</span></a></li>
+                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    
+                </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a href="javascript:;"><i class="my-icon nav-icon icon_6"></i><span>VRTC交易</span><i class="my-icon nav-more"></i></a>
+                <ul>
+                    <li><a href="javascript:;"><span>链接一</span></a></li>
+                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    
+                </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a href="javascript:;"><i class="my-icon nav-icon icon_7"></i><span>推广二维码</span><i class="my-icon nav-more"></i></a>
+                <ul>
+                    <li><a href="javascript:;"><span>链接一</span></a></li>
+                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    
+                </ul>
+            </li>
+        
+         
+        </ul>
     </div>
-    <!-- 主体 -->
-    <table class="layui-table">
-            <colgroup>
-              <col width="100" >
-              <col width="100" >
-              <col width="100" >
-              <col width="100" >
-              <col>
-            </colgroup>
-            <tbody>
-              <tr>
-                <td>
-                    <a href='#'><div class="td-div glyphicon glyphicon-th-large">
-                    </div>
-                    </a>
-                    <p>你</p>
-                </td>
-                <td>
-                    <div class="td-div glyphicon glyphicon-star">
-                    </div>
-                    <p>我</p>
-                </td>
-                <td>
-                    <div class="td-div glyphicon glyphicon-file">
-                    </div>
-                    <p>他</p>
-                </td>
-                <td>
-                    <div class="td-div glyphicon glyphicon-file">
-                    </div>
-                    <p>你</p>
-                </td>
-              </tr>
-              <tr>
-                    <td>
-                        <div class="td-div glyphicon glyphicon-th-large">
-                        </div>
-                        <p>我</p>
-                    </td>
-                    <td>
-                        <div class="td-div glyphicon glyphicon-star">
-                        </div>
-                        <p>他</p>
-                    </td>
-                    <td>
-                        <div class="td-div glyphicon glyphicon-file">
-                        </div>
-                        <p>aaa</p>
-                    </td>
-                    <td>
-                        <div class="td-div glyphicon glyphicon-file">
-                        </div>
-                        <p>aaa</p>
-                    </td>
-                  </tr>
-                  <tr>
-                        <td>
-                            <div class="td-div glyphicon glyphicon-th-large">
-                            </div>
-                            <p>aaa</p>
-                        </td>
-                        <td>
-                            <div class="td-div glyphicon glyphicon-star">
-                            </div>
-                            <p>aaa</p>
-                        </td>
-                        <td>
-                            <div class="td-div glyphicon glyphicon-file">
-                            </div>
-                            <p>aaa</p>
-                        </td>
-                        <td>
-                            <div class="td-div glyphicon glyphicon-file">
-                            </div>
-                            <p>aaa</p>
-                        </td>
-                      </tr>
-                      
-            </tbody>
-          </table>
-    {include file="publish/footer"}
+    <script type="text/jscript">
+	$(function(){
+    // nav收缩展开
+    $('.nav-item>a').on('click',function(){
+        if (!$('.nav').hasClass('nav-mini')) {
+            if ($(this).next().css('display') == "none") {
+                //展开未展开
+                $('.nav-item').children('ul').slideUp(300);
+                $(this).next('ul').slideDown(300);
+                $(this).parent('li').addClass('nav-show').siblings('li').removeClass('nav-show');
+            }else{
+                //收缩已展开
+                $(this).next('ul').slideUp(300);
+                $('.nav-item.nav-show').removeClass('nav-show');
+            }
+        }
+    });
+
+});
+	</script>        
+        
+        
+           </div> 
+        
+        
+        
+        
+        
+        
+        
+    </div>
+    
+    
+
+   
+
 </body>
 </html>

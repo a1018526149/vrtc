@@ -51,6 +51,8 @@
 
 	function publish(){
 		$id=$this->request->param('id');
+		$pos1=$this->request->param('pos');
+		$prename=$this->request->param('prename');
 		if($id){
 			$searchFiedls=[
 				'id',
@@ -76,6 +78,18 @@
 		}else{
 			$info="默认密码‘0123456789’";
 			$this->assign('info',$info);
+		}
+		if($prename)
+		{
+			$this->assign('prename',$prename);
+		}
+		if($pos1)
+		{
+			$this->assign('pos1',$pos1);
+		}
+		else
+		{
+			$this->assign('pos1',1);
 		}
 		$grade=Db::name('grade')->select();
 		$level_cate=Db::name('level_config')->select();
@@ -144,8 +158,10 @@
 				'bank',
 				'bank_name',
 				'account_name',
-				'account_bank'
+				'account_bank',
+				'pos'
 			];
+			
 			$insertData=[];
 			foreach($data as $k => $v){
 				if(in_array($k,$allowsFields)){
@@ -157,13 +173,38 @@
 				$this->error('添加失败！请重试');
 				die;
 			}
-			if(!Db::name('member')->where('user_number',$insertData['refree'])->find()){
-				$this->error('推荐人不存在');
-				die;
+			$member=Db::name('member')->field(['user_name','user_number','refree'])->order("id asc")->limit(1)->find();
+			if($member)
+			{
+				$tjmember=Db::name('member')->where('user_number',$insertData['refree'])->find();
+				if(!$tjmember){
+					$this->error('推荐人不存在');
+					die;
+				}
+				$remember=Db::name('member')->where('user_number',$insertData['refree_node'])->order("id asc")->find();
+				if(!$remember){
+					$this->error('节点人不存在');
+					die;
+				}	
+				$where['refree_node']=$insertData['refree_node'];
+				$where['pos']=$insertData['pos'];
+				if(Db::name('member')->where($where)->find()){
+					$this->error('区位被占用');
+					die;
+				}
+				$tjdept=$tjmember["tjdept"]+1;
+				$tjstr=$insertData['refree'].",".$tjmember["tjstr"];
+				$gldept=$remember["gldept"]+1;
+				$glstr=$insertData['refree_node'].",".$remember["glstr"];
+				$insertData['tjdept']=$tjdept;
+				$insertData['tjstr']=$tjstr;
+				$insertData['gldept']=$gldept;
+				$insertData['glstr']=$glstr;
+				
 			}
-			if(!Db::name('member')->where('user_number',$insertData['refree_node'])->find()){
-				$this->error('节点人不存在');
-				die;
+			else
+			{
+				$insertData['status']=1;
 			}
 			if(Db::name('member')->insert($insertData)){
 				addlog($id);
@@ -219,9 +260,9 @@
 		 if($this->request->isPost()){
 			 $post = $this->request->post();
 			 if(false == Db::name('member')->where('id',$post['id'])->update(['status'=>$post['status'],'inspect_time'=>time()])) {
-				 return $this->error('设置失败');
+				 return $this->error('审核失败');
 			 } else {
-				 return $this->success('设置成功','admin/member/index');
+				 return $this->success('审核成功','admin/member/index');
 			 }
 		 }
 	 }

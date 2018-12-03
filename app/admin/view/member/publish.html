@@ -30,7 +30,7 @@
         </div>
 
       <div class="layui-form-item">
-        <label class="layui-form-label">昵称</label>
+        <label class="layui-form-label">姓名</label>
         <div class="layui-input-block" style="max-width:600px;">
           <input name="user_name" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input" type="text" {notempty name="$member.user_name"}value="{$member.user_name}"{/notempty}>
         </div>
@@ -50,7 +50,7 @@
         <label class="layui-form-label">等级</label>
         <div class="layui-input-block" style="max-width:300px;">
           <select name="level" lay-verify="required">
-            <option value=""></option>
+            <option value="0"></option>
             {notempty name='member'}
               {volist name='level_cate' id='vo'}
                 {if condition="$member.level==$vo.level "}
@@ -121,18 +121,32 @@
       <div class="layui-form-item">
         <label class="layui-form-label">推荐人</label>
         <div div class="layui-input-block" style="max-width:600px;">
-          <input name="refree" autocomplete="off" placeholder="请输入推荐人编号" class="layui-input" type="text" {notempty name="$member.refree"}value="{$member.refree}"{/notempty}>
+          <input name="refree" autocomplete="off" placeholder="请输入推荐人编号" class="layui-input" type="text" {notempty name="$member"}value="{$member.refree}" readonly {/notempty}>
         </div>
       </div>
 
       <div class="layui-form-item">
         <label class="layui-form-label">节点人</label>
         <div div class="layui-input-block" style="max-width:600px;">
-          <input name="refree_node" autocomplete="off" placeholder="请输入节点人编号" class="layui-input" type="text" {notempty name="$member.refree_node"}value="{$member.refree_node}"{/notempty}>
+          <input name="refree_node" autocomplete="off" placeholder="请输入节点人编号" class="layui-input" type="text" {notempty name="$prename"}value="{$prename}"  {/notempty}  {notempty name="$member"}value="{$member.refree_node}" readonly {/notempty}>
         </div>
       </div>
-
+      {notempty name='member'}
+            {else /}
       <div class="layui-form-item">
+        <label class="layui-form-label">位置</label>
+        <div class="layui-input-block" style="max-width:300px;">
+        
+            <select name="pos" lay-verify="required">
+            <option value="1" {if condition="$pos1==1"} selected {/if}>左区</option>
+            <option value="2"  {if condition="$pos1==2"} selected {/if}>右区</option>
+            
+          </select>
+          
+        </div>
+      </div>
+      {/notempty}
+      <!--<div class="layui-form-item">
         <label class="layui-form-label">余额</label>
         <div div class="layui-input-block" style="max-width:600px;">
           <input name="price" autocomplete="off" placeholder="请谨慎设置余额" class="layui-input" type="text" {notempty name="$member.price"}value="{$member.price}"{/notempty}>
@@ -144,7 +158,7 @@
         <div div class="layui-input-block" style="max-width:600px;">
           <input name="bonus" autocomplete="off" placeholder="请谨慎设置余额" class="layui-input" type="text" {notempty name="$member.bonus"}value="{$member.bonus}"{/notempty}>
         </div>
-      </div>
+      </div>-->
 
       <div class="layui-form-item">
         <label class="layui-form-label">银行卡号</label>

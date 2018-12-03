@@ -139,6 +139,22 @@ function SendSms($param,$phone)
     $resp = $c ->execute($req);
 }
 
+function level($level){
+    $name=\think\Db::name('level_config')->where('level',$level)->find();
+    return $name['name'];
+}
+
+/**
+ * 获取用户级别信息
+ * @param number $grade 级别
+ * @param string $name  返回名称
+ */
+
+function grade($grade){
+    $name=\think\Db::name('grade')->where('grade',$grade)->find();
+    return $name['name'];
+}
+
  //订单状态
  function ddstate($state){
     switch($state){
@@ -221,6 +237,19 @@ function SendSms($param,$phone)
 
     return $state_1;
  }
+ 
+ //区位
+ function pos1($pos){
+    switch($pos)
+	{
+        case 1:$pos_1="左区";break;
+		case 2:$pos_1="右区";break; 
+		case 0:$pos_1="";break;       
+    }
+
+    return $pos_1;
+ }
+
 
 /**
  * 替换手机号码中间四位数字
@@ -240,4 +269,44 @@ function hide_phone($str){
 function getRefreeName($refree){
     $member=\think\Db::name('member')->field(['user_name','user_number','refree'])->where('refree',$refree)->select();
     return $member;
+}
+
+/**
+ * 生成编号
+ * @param number $number 编号
+ */
+
+function number($a){
+    $temporary=rand(1,9);
+    switch($temporary){
+       case 1:
+       $char="A";
+       break;
+       case 2:
+       $char="B";
+       break;
+       case 3:
+       $char="C";
+       break;
+       case 4:
+       $char="D";
+       break;
+       case 5:
+       $char="E";
+       break;
+       case 6:
+       $char="F";
+       break;
+       case 7:
+       $char="G";
+       break;
+       case 8:
+       $char="H";
+       break;
+       case 9:
+       $char="I";
+       break;
+    }
+    $number=$char.rand(10000,99999);
+    return $number;
 }

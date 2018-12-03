@@ -136,7 +136,7 @@
                     $('.forget_alert').remove();
                     $('.mobileNum').append('<p class="forget_alert" style="color:red;">'+'用户名或手机号不能为空！'+'</p>');
                 }else if(new_pwd==false){
-                    $('.fogret_pwd_alert').remove();
+                    $('.forget_pwd_alert').remove();
                     $('.newPassword').append('<p class="forget_pwd_alert" style="color:red;">'+'密码不能为空！'+'</p>');
                 }else if(new_pwd!==pwd){
                     $('.fogret_pwd_alert').remove();
@@ -149,6 +149,7 @@
                         data: {'name':name,'pwd':pwd},
                         success: function (res) {
                             alert(res.message);
+							location.href="{:url('index/login/index')}";
                         },
 						error: function(){
 							alert('修改失败');
@@ -289,6 +290,5 @@ $('.login__submit').click(function(){
     
 });
 </script>
-
 </body>
 </html>
