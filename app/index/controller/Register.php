@@ -269,7 +269,14 @@ class Register  extends Index
         // dump($area);die;
         return $area;
     }
+    // 注册成功页
     function thesuccess(){
+        $number=Session::get('user_number');
+        $member=Db::name('member')->where('user_number',$number)->find();
+        if(!empty($member)){
+            unset($member['user_password']);
+            Session::set('member',$member);
+        }
         return $this->fetch();
     }
     // 递归函数

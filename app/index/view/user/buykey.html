@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>我的留言</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/gmkz.css"/>
+    <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!--演示页面样式，使用时可以不引用-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
+	<link rel="stylesheet" href="__PUBLIC__/bootstrap/css/icheck-bootstrap.css">
+    <script type="text/javascript" src="__PUBLIC__/jquery/jquery-latest.js"></script>
+    <script type="text/javascript">
+        function fontSize(){
+            var deviceWidth=document.documentElement.clientWidth>768?768:document.documentElement.clientWidth;
+            document.documentElement.style.fontSize=(deviceWidth/25)+"px";
+        }
+        fontSize();
+        window.onresize=fontSize;
+    </script>
+    <style>
+    .pageRemark{
+        display: none;
+    }
+    .cur{
+        background-color:black !important; 
+    }
+    .pagination a{
+        margin-right: 0px !important;
+    }
+    .pagination{
+        padding-top:0px !important;
+        margin-left: 20px; 
+    }
+    </style>
+</head>
+<body>
+
+
+ <div class="login_bg">
+        <div class="logo"><img src="__IMG__/logo1.png"></div>
+        
+        
+        <div class="topright">
+        		
+                <div class="box1">账号：{notempty name='member'}{$member.user_name}{else /}未登录{/notempty}</div>
+                
+                <div class="box1">荣誉级别：{notempty name='$member.level'}{$member.level|level}{else /}无{/notempty}</div>
+                
+                <div class="box1">钱包等级：{notempty name='$member.grade'}{$member.grade|grade}{else /}一级钱包{/notempty}</div>
+                
+                <div class="box1">账户状态：{notempty name='$member.status'}{if condition="$member.status==1"}已激活{else /}未激活{/if}{else /}未激活{/notempty}</div>      
+       
+        </div>
+        
+        <div class="topbom">
+           
+           <div class="box2"> 
+           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
+          <button type="button">提现</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
+          <button type="button">充值</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
+          <button type="button">购买</button>
+           </div>
+        </div>
+        
+<!-- 内容-->  
+
+<div class="kztil">
+
+<div class="yue">K值余额:0</div>
+
+<div class="yxj">我的优先级:1</div>
+
+</div>
+<div class="nr">
+      <table>
+  <thead>
+	<tr>
+	  <th valign="middle" style="width:10%;">编号</th>
+	  <th valign="middle" style="width:37%;">账号</th>
+	  <th valign="middle" style="width:16%;">购买日期</th>
+	  <th valign="middle" style="width:16%;">优先级</th>
+      <th valign="middle" style="width:16%;">撤出奖金</th>
+	</tr>
+  </thead>
+  <tbody>
+	<tr>
+	  <th valign="middle">1</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">2</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">3</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">4</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">5</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">6</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">7</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">8</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">9</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">10</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">11</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">12</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">13</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">14</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">15</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">16</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">17</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">17</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">17</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">17</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">17</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+    <tr>
+	  <th valign="middle">17</th>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+	  <td valign="middle"></td>
+      <td valign="middle"></td>
+	</tr>
+  </tbody>
+</table>
+</div>
+
+<div class="xx"></div>
+ 
+
+
+<div class="dd">
+
+<div class="ddlef">可购买K数量：5个</div>
+
+<button type="button">排队购买</button>
+
+</div>
+
+
+
+        
+</div>
+ 
+</body>
+</html>

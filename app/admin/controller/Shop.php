@@ -1,12 +1,12 @@
 <?php
 namespace app\admin\controller;
 use \think\Db;
-
+use \think\Page;
 class Shop extends Permissions 
 {   
     // 商品列表
     function index(){
-        $product=Db::name('product')->select();
+        $product=Db::name('product')->paginate(10);
         $cate=Db::name('product_cate')->select();
         $this->assign('cate',$cate);
         $this->assign('product',$product);

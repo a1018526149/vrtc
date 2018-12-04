@@ -85,7 +85,6 @@ class Main extends Permissions
             $login_sum.= Db::name('admin_log')->where(['admin_menu_id'=>50])->where($where)->count() . ',';
         }
         $web['login_sum'] = $login_sum;
-
         $this->assign('web',$web);
 
         return $this->fetch();

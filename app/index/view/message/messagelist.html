@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>我的留言</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/wdly.css"/>
+    <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!--演示页面样式，使用时可以不引用-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
+	<link rel="stylesheet" href="__PUBLIC__/bootstrap/css/icheck-bootstrap.css">
+    <script type="text/javascript" src="__PUBLIC__/jquery/jquery-latest.js"></script>
+    <script type="text/javascript">
+        function fontSize(){
+            var deviceWidth=document.documentElement.clientWidth>768?768:document.documentElement.clientWidth;
+            document.documentElement.style.fontSize=(deviceWidth/25)+"px";
+        }
+        fontSize();
+        window.onresize=fontSize;
+    </script>
+    <style>
+    .pageRemark{
+        display: none;
+    }
+    .cur{
+        background-color:black !important; 
+    }
+    .pagination a{
+        margin-right: 0px !important;
+    }
+    .pagination{
+        padding-top:0px !important;
+        margin-left: 20px; 
+    }
+    </style>
+</head>
+<body>
+    <div class="login_bg">
+        <div class="logo"><img src="__IMG__/logo1.png"></div>
+        
+        
+        <div class="topright">
+        		
+                <div class="box1">账号：{notempty name='member'}{$member.user_name}{else /}未登录{/notempty}</div>
+                
+                <div class="box1">荣誉级别：{notempty name='$member.level'}{$member.level|level}{else /}无{/notempty}</div>
+                
+                <div class="box1">钱包等级：{notempty name='$member.grade'}{$member.grade|grade}{else /}一级钱包{/notempty}</div>
+                
+                <div class="box1">账户状态：{notempty name='$member.status'}{if condition="$member.status==1"}已激活{else /}未激活{/if}{else /}未激活{/notempty}</div>      
+       
+        </div>
+        
+        <div class="topbom">
+           
+           <div class="box2"> 
+           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
+          <button type="button">提现</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
+          <button type="button">充值</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
+          <button type="button">购买</button>
+           </div>
+        </div> 
+    
+       <!-- 内容-->  
+
+<div class="tabletil">我的留言</div>
+<table>
+    <thead>
+        <tr>
+            <th valign="middle" style="width:10%;">编号</th>
+            <th valign="middle" style="width:50%;">标题</th>
+            <th valign="middle" style="width:20%;">发送时间</th>
+            <th valign="middle" style="width:20%;">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {volist name='messages' id='vo'}
+        <tr>
+            <th valign="middle">{$vo.id}</th>
+            <td valign="middle">{$vo.title|substr=0,4}......</td>
+            <td valign="middle">{$vo.create_time|date="y/m/d H:i:s",###}</td>
+            <td valign="middle"><a class="btn btn-primary del" value='{$vo.id}'>删除</a></td>
+        </tr>
+        {/volist}
+    </tbody>
+</table>
+        
+{$messages->render()}
+</div>
+</body>
+<script>
+    $('.del').click(function(){
+        var id=$(this).attr('value');
+        $.ajax({
+            type: "post",
+            url: "{:url('index/message/deletemsg')}",
+            data: {'id':id},
+            success: function (res) {
+                alert(res.message);
+                if(res.code=='success'){
+                    window.location.href='{:url("index/message/messagelist")}';
+                }
+            }
+        });
+        
+    });
+</script>
+</html>

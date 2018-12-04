@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>主页</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/zhuye.css"/>
+    <link rel="stylesheet" href="__CSS__/message.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.css" type="text/css" />
+    
+     <link rel="stylesheet" type="text/css" href="__CSS__/nav.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/fonts/iconfont.css">
+	
+  <script src="__PUBLIC__/echarts/echarts.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
+	
+	<!--演示页面样式，使用时可以不引用-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
+	<link rel="stylesheet" href="__PUBLIC__/bootstrap/css/icheck-bootstrap.css">
+    
+    <script type="text/javascript" src="__PUBLIC__/jquery/jquery-latest.js"></script>
+    <script type="text/javascript">
+        function fontSize(){
+            var deviceWidth=document.documentElement.clientWidth>768?768:document.documentElement.clientWidth;
+            document.documentElement.style.fontSize=(deviceWidth/25)+"px";
+        }
+        fontSize();
+        window.onresize=fontSize;
+    </script>
+
+    <style>
+        input::-webkit-input-placeholder{
+            color:#333;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#333;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#333;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#333;
+        }
+        .tempText{
+            position: relative;
+            top:200px;left:0px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo"><img src="__IMG__/logo1.png"></div>
+<div class="login_bg">
+        
+        <div class="topright">
+        		
+                <div class="box1">账号：{notempty name='member'}{$member.user_name}{else /}未登录{/notempty}</div>
+                
+                <div class="box1">荣誉级别：{notempty name='$member.level'}{$member.level|level}{else /}无{/notempty}</div>
+                
+                <div class="box1">钱包等级：{notempty name='$member.grade'}{$member.grade|grade}{else /}一级钱包{/notempty}</div>
+                
+                <div class="box1">账户状态：{notempty name='$member.status'}{if condition="$member.status==1"}已激活{else /}未激活{/if}{else /}未激活{/notempty}</div>      
+       
+        </div>
+        
+        <div class="topbom">
+           
+           <div class="box2"> 
+           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
+          <button type="button">提现</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
+          <button type="button">充值</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
+          <button type="button">购买</button>
+           </div>
+        </div>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control title" id="exampleInputTitle" placeholder="标题：" style="max-width:96%;margin-left:0.5em;">
+            <textarea class="form-control text" rows="16" placeholder="留言内容：" style="max-width:96%;margin-left:0.5em;"></textarea>
+            <input type="text" class="form-control imgtitle" id="exampleInputImg" value="上传图片" readonly style="max-width:66%;" >
+            <button type="button" class="btn btn-primary file" id="drop_area">选择图片</button>
+            <input type="hidden" name="image" id="image">
+        </div>
+        <!-- <div id="drop_area"></div> -->
+
+        <button class="login_dl" type="submit">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;认</button>
+    <script src="__PUBLIC__/jquery/jquery-1.11.3.js"></script>
+    <script src="__JS__/upload.js"></script>
+    <script type="text/javascript">
+        var dragImgUpload = new DragImgUpload("#drop_area",{
+            callback:function (files) {
+                //回调函数，可以传递给后台等等
+                var file = files[0];
+                $("#imgWait").show();
+                var formData = new FormData();
+                formData.append("file", file);   
+                $.ajax({
+                    url: "{:url('index/common/upload')}",
+                    type: "POST",
+                    data: formData,
+                    /**
+                    *必须false才会自动加上正确的Content-Type
+                    */
+                    contentType: false,
+                    /**
+                    * 必须false才会避开jQuery对 formdata 的默认处理
+                    * XMLHttpRequest会对 formdata 进行正确的处理
+                    */
+                    processData: false,
+                    success: function (data) {
+                        $('#image').attr('value',data.id);
+                        if(data.code!==1){
+                            $('.imgtitle').attr('value',file.name);
+                            alert('上传成功');
+                        }
+                    }
+                });
+                
+            }
+        })
+        
+        $('.login_dl').click(function(){
+            var title=$('.title').val();
+            var text=$('.text').val();
+            var image=$('#image').val();
+            if(title==""){
+                alert('请输入标题');
+            }else if(text==""){
+                alert('请填写内容');
+            }else{
+                $.ajax({
+                    type: "post",
+                    url: "{:url('index/message/pushmessage')}",
+                    data: {"text":text,"image":image,"title":title},
+                    success: function (res) {
+                        alert(res.message);
+                        if(res.code=='success'){
+                            window.location.href="{:url('index/message/index')}";
+                        }
+                    }
+                });
+            }
+            
+            
+        });
+        
+        </script>
+</body>
+</html>

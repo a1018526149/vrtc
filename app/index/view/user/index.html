@@ -11,7 +11,8 @@
      <link rel="stylesheet" type="text/css" href="__CSS__/nav.css">
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/fonts/iconfont.css">
 	
-    <script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
+  <script src="__PUBLIC__/echarts/echarts.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
 	
 	<!--演示页面样式，使用时可以不引用-->
 	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
@@ -53,28 +54,28 @@
         
         <div class="topright">
         		
-                <div class="box1">账号：vrtc0001</div>
+                <div class="box1">账号：{notempty name='member'}{$member.user_name}{else /}未登录{/notempty}</div>
                 
-                <div class="box1">荣誉级别：无</div>
+                <div class="box1">荣誉级别：{notempty name='$member.level'}{$member.level|level}{else /}无{/notempty}</div>
                 
-                <div class="box1">钱包等级：一级</div>
+                <div class="box1">钱包等级：{notempty name='$member.grade'}{$member.grade|grade}{else /}一级钱包{/notempty}</div>
                 
-                <div class="box1">账户状态：未激活</div>      
+                <div class="box1">账户状态：{notempty name='$member.status'}{if condition="$member.status==1"}已激活{else /}未激活{/if}{else /}未激活{/notempty}</div>      
        
         </div>
         
         <div class="topbom">
            
            <div class="box2"> 
-           		1000金币<br>
+           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
           <button type="button">提现</button>
            </div>
            <div class="box2"> 
-           		1000钻石<br>
+            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
           <button type="button">充值</button>
            </div>
            <div class="box2"> 
-           		1000VRTC<br>
+            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
           <button type="button">购买</button>
            </div>
         </div>
@@ -85,17 +86,15 @@
             <div class="chartit">
             <button type="button">交易</button>
             
-            <h3>VRTC价格走势图</h3>
-            
             <h4>当日价格：4.3元</h4>
             
             </div>
         
-        
-        	<img src="__IMG__/tb.png">
+            
+
         
         </div>
-        
+        <div class="layui-card-body" id="main" style="height: 300px;width: 100%;"></div>
        <div class="aui-grids">
         
         <a href="" class="aui-grids-item"> 
@@ -126,7 +125,7 @@
         </a>
         
         
-        <a href="" class="aui-grids-item"> 
+        <a href="{:url('index/user/notice')}" class="aui-grids-item"> 
         	<div class="aui-grids-item-icon">
             
             <img src="__IMG__/t3.png">
@@ -148,8 +147,7 @@
             <li class="nav-item">
                 <a href="javascript:;"><i class="my-icon nav-icon icon_1"></i><span>会员激活</span><i class="my-icon nav-more"></i></a>
                 <ul>
-                    <li><a href="javascript:;"><span>链接一</span></a></li>
-                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    <li><a href="{:url('index/user/activation')}"><span>激活</span></a></li>
                     
                 </ul>
             </li>
@@ -175,8 +173,8 @@
             <li class="nav-item">
                 <a href="javascript:;"><i class="my-icon nav-icon icon_4"></i><span>信息交流</span><i class="my-icon nav-more"></i></a>
                 <ul>
-                    <li><a href="javascript:;"><span>链接一</span></a></li>
-                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    <li><a href="{:url('index/message/index')}"><span>写留言</span></a></li>
+                    <li><a href="{:url('index/message/messagelist')}"><span>留言记录</span></a></li>
                     
                 </ul>
             </li>
@@ -202,14 +200,15 @@
             <li class="nav-item">
                 <a href="javascript:;"><i class="my-icon nav-icon icon_7"></i><span>推广二维码</span><i class="my-icon nav-more"></i></a>
                 <ul>
-                    <li><a href="javascript:;"><span>链接一</span></a></li>
-                    <li><a href="javascript:;"><span>链接二</span></a></li>
+                    <li><a href="{:url('index/user/qrcode')}"><span>二维码</span></a></li>
                     
                 </ul>
             </li>
         
          
         </ul>
+    </div>
+
     </div>
     <script type="text/jscript">
 	$(function(){
@@ -248,4 +247,45 @@
    
 
 </body>
+<script type="text/javascript">
+    var a = "";
+    var date = a.split(",");
+    
+    var b = "";
+    var login_sum = b.split(",");
+    
+    
+    var myChart = echarts.init(document.getElementById('main'));
+    
+    option = {
+    title: {
+        text: 'vrtc价格走势图'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            magicType: {show: true, type: ['stack', 'tiled']},
+            saveAsImage: {show: true}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['周一','周二','周三','周四','周五','周六','周日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        name: '价格',
+        type: 'line',
+        smooth: true,
+        data: [10, 12, 21, 31, 26, 25, 15]
+    }]
+};
+    myChart.setOption(option);
+    </script>
 </html>
