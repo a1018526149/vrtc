@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>我的钱包</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/wallet.css"/>
+    <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!--演示页面样式，使用时可以不引用-->
+	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
+	<link rel="stylesheet" href="__PUBLIC__/bootstrap/css/icheck-bootstrap.css">
+    <script type="text/javascript" src="__PUBLIC__/jquery/jquery-latest.js"></script>
+    <script type="text/javascript">
+        function fontSize(){
+            var deviceWidth=document.documentElement.clientWidth>768?768:document.documentElement.clientWidth;
+            document.documentElement.style.fontSize=(deviceWidth/25)+"px";
+        }
+        fontSize();
+        window.onresize=fontSize;
+    </script>
+</head>
+<body>
+
+
+ <div class="login_bg">
+        <div class="logo"><img src="__IMG__/logo1.png"></div>
+        
+        {include file='publish/back'}
+        
+        <div class="topright">
+        		
+                <div class="box1">账号：{notempty name='member'}{$member.user_name}{else /}未登录{/notempty}</div>
+                
+                <div class="box1">荣誉级别：{notempty name='$member.level'}{$member.level|level}{else /}无{/notempty}</div>
+                
+                <div class="box1">钱包等级：{notempty name='$member.grade'}{$member.grade|grade}{else /}一级钱包{/notempty}</div>
+                
+                <div class="box1">账户状态：{notempty name='$member.status'}{if condition="$member.status==1"}已激活{else /}未激活{/if}{else /}未激活{/notempty}</div>      
+       
+        </div>
+        
+        <div class="topbom">
+           
+           <div class="box2"> 
+           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
+          <button type="button">提现</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
+          <button type="button">充值</button>
+           </div>
+           <div class="box2"> 
+            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
+          <button type="button">购买</button>
+           </div>
+        </div>
+        <!-- 内容 -->
+    <div class="body-box">
+            <div class="row wallet">
+                    <div class="col-sm-6 col-md-4">
+                      <div class="thumbnail">
+                            <p><a href="#" class="btn btn-primary" role="button">金币</a>&nbsp;&nbsp;交易记录</p>
+    
+                        <img src="__IMG__/money.png" class="moneyimg" alt="..." >
+                        <div class="caption">
+                                <p class="money">￥2000</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row wallet">
+                        <div class="col-sm-6 col-md-4">
+                          <div class="thumbnail">
+                                <p><a href="#" class="btn btn-primary" role="button">钻石</a>&nbsp;&nbsp;交易记录</p>
+        
+                            <img src="__IMG__/money.png" class="moneyimg" alt="..." >
+                            <div class="caption">
+                                <p class="money">￥2000</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div><div class="row wallet">
+                            <div class="col-sm-6 col-md-4">
+                              <div class="thumbnail">
+                                    <p><a href="#" class="btn btn-primary" role="button">VRTC</a>&nbsp;&nbsp;交易记录</p>
+            
+                                <img src="__IMG__/money.png" class="moneyimg" alt="..." >
+                                <div class="caption">
+                                        <p class="money">￥2000</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row wallet">
+                                <div class="col-sm-6 col-md-4">
+                                  <div class="thumbnail">
+                                        <p><a href="#" class="btn btn-primary" role="button">商城币</a>&nbsp;&nbsp;交易记录</p>
+                
+                                    <img src="__IMG__/money.png" class="moneyimg" alt="..." >
+                                    <div class="caption">
+                                        <p class="money">￥2000</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- <div class="row wallet">
+                                    <div class="col-sm-6 col-md-4">
+                                      <div class="thumbnail">
+                                            <p><a href="#" class="btn btn-primary" role="button">A类产品抵用券</a>&nbsp;&nbsp;交易记录</p>
+                    
+                                        <img src="__IMG__/money.png" class="moneyimg" alt="..." >
+                                        <div class="caption">
+                                                <p class="money">￥2000</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row wallet">
+                                        <div class="col-sm-6 col-md-4">
+                                          <div class="thumbnail">
+                                                <p><a href="#" class="btn btn-primary" role="button">车房奖金</a>&nbsp;&nbsp;交易记录</p>
+                        
+                                            <img src="__IMG__/money.png" class="moneyimg" alt="..." >
+                                            <div class="caption">
+                                                <p class="money">￥2000</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div> -->
+        <!-- 选项组 -->
+        <button type="button" class="btn btn-primary other">升级钱包</button>
+        <a href="{:url('index/user/detailed')}"><button type="button" class="btn btn-primary other">奖金明细</button></a>
+        <button type="button" class="btn btn-primary other" id='tranfer'>会员转账</button>
+        <button type="button" class="btn btn-primary other attc" id="transformation">币币转换</button>
+        <!-- 二级选项 -->
+        <div class="btn-toolbar btns" role="toolbar" aria-label="...">
+                <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-primary secbtn">金币转账</button>
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-primary secbtn">钻石转账</button>
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-primary secbtn">VRTC转账</button>
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-primary secbtn">商城币转账</button>
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-primary secbtn">抵用券转账</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- 弹窗 -->
+    <div class="middle-box">
+        <div class="box-header">
+            <span class="span"><b>币币转换</b></span>
+            <img src="__IMG__/close2.png" alt="" class="close">
+        </div>
+        <label for="">转出钱包</label>
+        <select class="form-control">
+                <option>金币</option>
+                <option>钻石</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+        <label for="">余额</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <label for="">转账余额</label>
+        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+        <label for="">接收钱包</label>
+        <select class="form-control">
+                <option>钻石</option>
+                <option>金币</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+        <label for="">交易密码</label>
+        <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+        <button type="button" class="btn-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+        <button type="button" class="btn-no">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+    </div>
+ 
+</body>
+<script>
+    // 点击事件
+$('#tranfer').click(function(){
+    $('.btns').attr('style','display:block;');
+    $('.attc').attr('style','margin-top:63px;');
+});
+$('#transformation').click(function(){
+    $('.body-box').attr('style','display:none;');
+    $('.middle-box').attr('style','display:block;');
+});
+$('.close').click(function(){
+    $('.body-box').attr('style','display:block;');
+    $('.middle-box').attr('style','display:none;'); 
+});
+</script>
+</html>

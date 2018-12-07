@@ -13,6 +13,8 @@
 	
   <script src="__PUBLIC__/echarts/echarts.min.js"></script>
   <script type="text/javascript" src="__PUBLIC__/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/bootstrap/js/bootstrap.js"></script>
+
 	
 	<!--演示页面样式，使用时可以不引用-->
 	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
@@ -48,7 +50,6 @@
 
 
     <div class="login_bg">
-    
         <div class="logo"><img src="__IMG__/logo1.png"></div>
         
         
@@ -79,7 +80,7 @@
           <button type="button">购买</button>
            </div>
         </div>
-        
+        <div class="thebox-body">
         
         <div class="chart">
         	
@@ -94,145 +95,156 @@
 
         
         </div>
-        <div class="layui-card-body" id="main" style="height: 300px;width: 100%;"></div>
-       <div class="aui-grids">
         
-        <a href="" class="aui-grids-item"> 
-        	<div class="aui-grids-item-icon">
-            
-            <img src="__IMG__/t1.png">
-            
-            </div>
-            
-            <div class="aui-grids-item-text">
-            我的钱包
-            </div>
-        
-        </a>
-        
-        
-        <a href="" class="aui-grids-item"> 
-        	<div class="aui-grids-item-icon">
-            
-            <img src="__IMG__/t2.png">
-            
-            </div>
-            
-            <div class="aui-grids-item-text">
-            VR商城
-            </div>
-        
-        </a>
-        
-        
-        <a href="{:url('index/user/notice')}" class="aui-grids-item"> 
-        	<div class="aui-grids-item-icon">
-            
-            <img src="__IMG__/t3.png">
-            
-            </div>
-            
-            <div class="aui-grids-item-text">
-            新闻公告
-            </div>
-        
-        </a>
-        
+                <div class="layui-card-body" id="main" style="height: 300px;width: 100%;"></div>
+                <div class="aui-grids">
+                 
+                 <a href="{:url('index/user/wallet')}" class="aui-grids-item"> 
+                     <div class="aui-grids-item-icon">
+                     
+                     <img src="__IMG__/t1.png">
+                     
+                     </div>
+                     
+                     <div class="aui-grids-item-text">
+                     我的钱包
+                     </div>
+                 
+                 </a>
+                 
+                 
+                 <a href="" class="aui-grids-item"> 
+                     <div class="aui-grids-item-icon">
+                     
+                     <img src="__IMG__/t2.png">
+                     
+                     </div>
+                     
+                     <div class="aui-grids-item-text">
+                     VR商城
+                     </div>
+                 
+                 </a>
+                 
+                 
+                 <a href="{:url('index/user/notice')}" class="aui-grids-item"> 
+                     <div class="aui-grids-item-icon">
+                     
+                     <img src="__IMG__/t3.png">
+                     
+                     </div>
+                     
+                     <div class="aui-grids-item-text">
+                     新闻公告
+                     </div>
+                 
+                 </a>
+                 
+                 </div>
+                 
+         <div class="middle">    
+             <div class="nav">
+                
+                 <ul>
+                     <li class="nav-item">
+                         <a href="javascript:;"><img src="__IMG__/activ.png"><span>会员激活</span><i class="my-icon nav-more"></i></a>
+                         <ul>
+                             <li><a href="{:url('index/user/activation')}"><span>激活</span></a></li>
+                             
+                         </ul>
+                     </li>
+                     
+                     <li class="nav-item">
+                         <a href="javascript:;"><img src="__IMG__/mark.png"><span>市场管理</span><i class="my-icon nav-more"></i></a>
+                         <ul>
+                             <li><a href="{:url('index/user/sjt')}"><span>结构图</span></a></li>
+                             <li><a href="javascript:;"><span>链接二</span></a></li>
+                             
+                         </ul>
+                     </li>
+                     
+                     <li class="nav-item">
+                         <a href="javascript:;"><img src="__IMG__/user.png"><span>个人中心</span><i class="my-icon nav-more"></i></a>
+                         <ul>
+                             <li><a href="{:url('index/user/transferacc')}"><span>转账记录</span></a></li>
+                             <li><a class="edit"><span>个人资料</span></a> </li>
+                             {notempty name='$member'}
+                             <li><a class="edit-password"><span>修改密码</span></a> </li>
+                             {/notempty}
+                             <li><a class="address"><span>收货地址</span></a></li>
+                             {notempty name='$member'}
+                             <li><a class="outlogin"><span>退出登录</span></a></li>
+                             {/notempty}
+                         </ul>
+                     </li>
+                     
+                     <li class="nav-item">
+                         <a href="javascript:;"><img src="__IMG__/message.png"><span>信息交流</span><i class="my-icon nav-more"></i></a>
+                         <ul>
+                             <li><a href="{:url('index/message/index')}"><span>写留言</span></a></li>
+                             <li><a href="{:url('index/message/messagelist')}"><span>留言记录</span></a></li>
+                             
+                         </ul>
+                     </li>
+                     
+                     <li class="nav-item">
+                         <a href="javascript:;"><img src="__IMG__/key.png"><span>复投K值</span><i class="my-icon nav-more"></i></a>
+                         <ul>
+                             <li><a href="{:url('index/user/buykey')}"><span>购买K值</span></a></li>
+                             <li><a href="javascript:;"><span>链接二</span></a></li>
+                             
+                         </ul>
+                     </li>
+                     
+                     <li class="nav-item">
+                         <a href="javascript:;"><img src="__IMG__/buy.png"><span>VRTC交易</span><i class="my-icon nav-more"></i></a>
+                         <ul>
+                             <li><a href="javascript:;"><span>链接一</span></a></li>
+                             <li><a href="javascript:;"><span>链接二</span></a></li>
+                             
+                         </ul>
+                     </li>
+                     
+                     <li class="nav-item">
+                         <a href="javascript:;"><img src="__IMG__/qrcode.png"><span>推广二维码</span><i class="my-icon nav-more"></i></a>
+                         <ul>
+                             <li><a href="{:url('index/user/qrcode')}"><span>二维码</span></a></li>
+                             
+                         </ul>
+                     </li>
+                 
+                  
+                 </ul>
+             </div>
+         
+             </div>
+             <script type="text/jscript">
+             $(function(){
+             // nav收缩展开
+             $('.nav-item>a').on('click',function(){
+                 if (!$('.nav').hasClass('nav-mini')) {
+                     if ($(this).next().css('display') == "none") {
+                         //展开未展开
+                         $('.nav-item').children('ul').slideUp(300);
+                         $(this).next('ul').slideDown(300);
+                         $(this).parent('li').addClass('nav-show').siblings('li').removeClass('nav-show');
+                     }else{
+                         //收缩已展开
+                         $(this).next('ul').slideUp(300);
+                         $('.nav-item.nav-show').removeClass('nav-show');
+                     }
+                 }
+             });
+         
+         });
+         
+         
+             </script>        
+                 
+                 
+                    </div> 
         </div>
         
-<div class="middle">        
-    <div class="nav">
-       
-        <ul>
-            <li class="nav-item">
-                <a href="javascript:;"><i class="my-icon nav-icon icon_1"></i><span>会员激活</span><i class="my-icon nav-more"></i></a>
-                <ul>
-                    <li><a href="{:url('index/user/activation')}"><span>激活</span></a></li>
-                    
-                </ul>
-            </li>
-            
-            <li class="nav-item">
-                <a href="javascript:;"><i class="my-icon nav-icon icon_2"></i><span>市场管理</span><i class="my-icon nav-more"></i></a>
-                <ul>
-                    <li><a href="javascript:;"><span>链接一</span></a></li>
-                    <li><a href="javascript:;"><span>链接二</span></a></li>
-                    
-                </ul>
-            </li>
-            
-            <li class="nav-item">
-                <a href="javascript:;"><i class="my-icon nav-icon icon_3"></i><span>个人中心</span><i class="my-icon nav-more"></i></a>
-                <ul>
-                    <li><a href="javascript:;"><span>链接一</span></a></li>
-                    <li><a href="javascript:;"><span>链接二</span></a></li>
-                    
-                </ul>
-            </li>
-            
-            <li class="nav-item">
-                <a href="javascript:;"><i class="my-icon nav-icon icon_4"></i><span>信息交流</span><i class="my-icon nav-more"></i></a>
-                <ul>
-                    <li><a href="{:url('index/message/index')}"><span>写留言</span></a></li>
-                    <li><a href="{:url('index/message/messagelist')}"><span>留言记录</span></a></li>
-                    
-                </ul>
-            </li>
-            
-            <li class="nav-item">
-                <a href="javascript:;"><i class="my-icon nav-icon icon_5"></i><span>复投K值</span><i class="my-icon nav-more"></i></a>
-                <ul>
-                    <li><a href="javascript:;"><span>链接一</span></a></li>
-                    <li><a href="javascript:;"><span>链接二</span></a></li>
-                    
-                </ul>
-            </li>
-            
-            <li class="nav-item">
-                <a href="javascript:;"><i class="my-icon nav-icon icon_6"></i><span>VRTC交易</span><i class="my-icon nav-more"></i></a>
-                <ul>
-                    <li><a href="javascript:;"><span>链接一</span></a></li>
-                    <li><a href="javascript:;"><span>链接二</span></a></li>
-                    
-                </ul>
-            </li>
-            
-            <li class="nav-item">
-                <a href="javascript:;"><i class="my-icon nav-icon icon_7"></i><span>推广二维码</span><i class="my-icon nav-more"></i></a>
-                <ul>
-                    <li><a href="{:url('index/user/qrcode')}"><span>二维码</span></a></li>
-                    
-                </ul>
-            </li>
-        
-         
-        </ul>
-    </div>
-
-    </div>
-    <script type="text/jscript">
-	$(function(){
-    // nav收缩展开
-    $('.nav-item>a').on('click',function(){
-        if (!$('.nav').hasClass('nav-mini')) {
-            if ($(this).next().css('display') == "none") {
-                //展开未展开
-                $('.nav-item').children('ul').slideUp(300);
-                $(this).next('ul').slideDown(300);
-                $(this).parent('li').addClass('nav-show').siblings('li').removeClass('nav-show');
-            }else{
-                //收缩已展开
-                $(this).next('ul').slideUp(300);
-                $('.nav-item.nav-show').removeClass('nav-show');
-            }
-        }
-    });
-
-});
-	</script>        
-        
-        
-           </div> 
         
         
         
@@ -241,9 +253,94 @@
         
         
     </div>
-    
-    
-
+        <!-- 修改资料弹窗 -->
+        <div class="middle-box">
+            <div class="box-header">
+                <span class="span"><b>个人资料</b></span>
+                <img src="__IMG__/close2.png" alt="" class="close">
+            </div>
+            <label for="">会员编号</label>
+            <input type="text" class="form-control" id="user_number" placeholder="会员编号" readonly {notempty name='$member.user_number'}value='{$member.user_number}'{/notempty}>
+            <label for="">姓名</label>
+            <input type="text" class="form-control" id="name" placeholder="姓名" {notempty name='$member.user_name'}value='{$member.user_name}'{/notempty}>
+            <label for="">手机号码</label>
+            <input type="text" class="form-control" id="mobile" placeholder="手机号" {notempty name='$member.mobile'}value='{$member.mobile}'{/notempty}>
+            <label for="">生日</label>
+            <input type="text" class="form-control" id="birthday" placeholder="生日" {notempty name='$member.birthday'}value='{$member.birthday}'{/notempty}>
+            <label for="">性别</label>
+            <!-- <input type="text" class="form-control" id="sex" placeholder="性别" {notempty name='$member.sex'}{if condition='$member.sex==1'}value='男'{else /}女{/if}{$member.sex}'{/notempty}> -->
+            <select class="form-control sex">
+                {if condition='$member.sex==1'}
+                <option value='1' selected>男</option>
+                <option value='0'>女</option>
+                {else /}
+                <option value='1'>男</option>
+                <option value='0' selected>女</option>
+                {/if}
+              </select>
+            <label for="">级别</label>
+            <input type="text" class="form-control" id="level" value="暂无级别" readonly {notempty name='$member.level'}value='{$member.sex|level}'{/notempty}>
+            <button type="button" class="btn-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+            <button type="button" class="btn-no">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+        <!-- 密码修改弹窗 -->
+        <div class="password-box">
+                <div class="box-header">
+                    <span class="span"><b>密码修改</b></span>
+                    <img src="__IMG__/close2.png" alt="" class="close">
+                </div>
+                <label for="">原登录密码</label>
+                <input type="password" class="form-control" id="old_password" placeholder="原登录密码" >
+                <label for="">新登录密码</label>
+                <input type="password" class="form-control" id="new_password" placeholder="新登录密码" >
+                <label for="">密码确认&nbsp;&nbsp;</label>
+                <input type="password" class="form-control" id="confirm_password" placeholder="密码确认" >
+                <label for="">原支付密码</label>
+                <input type="password" class="form-control" id="old_pay_password" placeholder="原支付密码" >
+                <label for="">新支付密码</label>
+                <input type="password" class="form-control" id="new_pay_password" placeholder="新支付密码" >
+                <label for="">确认密码&nbsp;&nbsp;</label>
+                <input type="password" class="form-control" id="comfirm_pay_password" placeholder="确认密码" >
+                
+                <button type="button" class="btn-pwd-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+                <button type="button" class="btn-no">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+        <!-- 收货地址修改弹窗 -->
+        <div class="address-box">
+                <div class="box-header">
+                    <span class="span"><b>密码修改</b></span>
+                    <img src="__IMG__/close2.png" alt="" class="close">
+                </div>
+                <label for="">姓名</label>
+                <input type="text" class="form-control" id="user_name" placeholder="姓名" {notempty name='$area'}value='{$area.name}'{/notempty} >
+                <label for="">手机号</label>
+                <input type="text" class="form-control" id="tel" placeholder="手机号" {notempty name='$area'}value='{$area.mobile}'{/notempty}>
+                <label for="">所在地区&nbsp;&nbsp;</label>
+                <br>
+                <!-- Single button -->
+                <div>
+                        <select class="form-control sel sheng">
+                                <option selected>{$address.0}</option>                            
+                            {volist name='sheng' id='vol'}
+                            <option value="{$vol.id}">{$vol.cityname}</option>
+                            {/volist}
+                        </select>
+                        <select class="form-control sel shi">
+                                <option selected>{$address.1}</option>                            
+                                <option>市</option>
+                        </select>
+                        <select class="form-control sel xian">
+                                <option selected>{$address.2}</option>                            
+                                <option>县</option>
+                        </select>
+                </div>
+                <br>
+                <br>
+                <label for="">详细地址</label>
+                <input type="text" class="form-control" id="address" placeholder="详细地址" {notempty name='$area'}value='{$area.area}'{/notempty}>
+                <button type="button" class="btn-area-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+                <button type="button" class="btn-no">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
    
 
 </body>
@@ -287,5 +384,176 @@
     }]
 };
     myChart.setOption(option);
+    </script>
+    <script>
+        $('.outlogin').click(function(){
+            var outlogin=confirm('确定退出吗？');
+            if(outlogin==true){
+                $.ajax({
+                    type: "post",
+                    url: "{:url('index/user/outlogin')}",
+                    data: {"out":1},
+                    success: function (res) {
+                        console.log(res);
+                        
+                    }
+                });
+            }
+        });
+         // 修改资料点击事件
+ $('.edit').click(function(){
+    $('.thebox-body').attr('style','display:none;');
+    $('.middle-box').attr('style','display:block;');
+});
+$('.close').click(function(){
+    $('.thebox-body').attr('style','display:block;');
+    $('.middle-box').attr('style','display:none;'); 
+});
+        // 提交个人资料修改
+        $('.btn-yes').click(function(){
+            var name=$('#name').val();
+            var mobile=$('#mobile').val();
+            var birthday=$('#birthday').val();
+            var sex=$('.sex option:selected').val();
+            if(name==""){
+                alert('名字不能为空');
+            }else if(mobile==""){
+                alert('手机号不能为空');
+            }else{
+                $.ajax({
+                    type: "post",
+                    url: "{:url('index/user/useredit')}",
+                    data: {"name":name,"mobile":mobile,"birthday":birthday,"sex":sex},
+                    success: function (res) {
+                        alert(res.message);
+                        if(res.code=='success'){
+                            window.location.href='{:url("index/user/index")}';
+                        }
+                    }
+                });
+            }
+        });
+// 修改密码点击事件
+$('.edit-password').click(function(){
+    $('.thebox-body').attr('style','display:none;');
+    $('.password-box').attr('style','display:block;');
+});
+$('.close').click(function(){
+    $('.thebox-body').attr('style','display:block;');
+    $('.password-box').attr('style','display:none;'); 
+});
+// 文本框点击事件
+$('#old_password').click(function(){
+    $('.old_password').remove();    
+});
+$('#new_password').click(function(){
+    $('.new_password').remove();    
+});
+$('#confirm_password').click(function(){
+    $('.confirm_password').remove();    
+});
+    // 提交密码修改
+    $('.btn-pwd-yes').click(function(){
+        var old_password=$('#old_password').val();
+        var new_password=$('#new_password').val();
+        var confirm_password=$('#confirm_password').val();
+        var old_pay_password=$('#old_pay_password').val();
+        var comfirm_pay_password=$('#comfirm_pay_password').val();
+        if(old_password==""){
+            $('.old_password').remove();
+            $('#old_password').before('<img src="__IMG__/error.png" style="width:30px;height:auto;" class="alert-img old_password"/>');
+        }else if(new_password==""){
+            $('.new_password').remove();
+            $('#new_password').before('<img src="__IMG__/error.png" style="width:30px;height:auto;" class="alert-img new_password"/>');
+        }else if(confirm_password!==new_password){
+            $('.confirm_password').remove();
+            $('#confirm_password').before('<img src="__IMG__/error.png" style="width:30px;height:auto;" class="alert-img confirm_password"/>');
+        }else{
+            $.ajax({
+                type: "post",
+                url: "{:url('index/user/editpassword')}",
+                data: {'old_password':old_password,'confirm_password':confirm_password},
+                success: function (res) {
+                    alert(res.message);
+                    if(res.code){
+                        window.location.href="{:url('index/login/index')}";
+                    }
+                }
+            });
+            
+        }
+    });
+    // 收货地址点击事件
+$('.address').click(function(){
+    $('.thebox-body').attr('style','display:none;');
+    $('.address-box').attr('style','display:block;');
+});
+$('.close').click(function(){
+    $('.thebox-body').attr('style','display:block;');
+    $('.address-box').attr('style','display:none;'); 
+});
+    //市地区选择
+    $(".sheng").on("change",function(){
+        $('.xian').empty();
+        var sheng=$('.sheng option:selected').val();
+        $.ajax({
+            type: "post",
+            url: "{:url('index/user/getcity')}",
+            data: {"city_id":sheng},
+            success: function (res) {
+                $('.shi').empty();
+                for(var i=0;i<res.length;i++){
+                    $('.shi').append("<option value='"+res[i].id+"'>"+res[i].cityname+"</option>");
+                }
+            }
+        });
+        
+    });
+    // 县地区选择
+    $(".shi").on("change",function(){
+        var shi=$('.shi option:selected').val();
+        $.ajax({
+            type: "post",
+            url: "{:url('index/user/getxian')}",
+            data: {"xian_id":shi},
+            success: function (res) {
+                $('.xian').empty();
+                for(var i=0;i<res.length;i++){
+                    $('.xian').append("<option value='"+res[i].id+"'>"+res[i].cityname+"</option>");
+                }
+            }
+        });
+    });
+    // 提交修改数据
+    $('.btn-area-yes').click(function(){
+        var shengid=$('.sheng option:selected').val();
+        var shiid=$('.shi option:selected').val();
+        var xianid=$('.xian option:selected').val();
+        var area=shengid+'|'+shiid+'|'+xianid;
+        var username=$('#user_name').val();
+        var tel=$('#tel').val();
+        var address=$('#address').val();
+        
+        if(username==""){
+            alert('请填写姓名');
+        }else if(tel==""){
+            alert('请填写手机号');
+        }else if(address==""){
+            alert('请填写详细地址');
+        }else{
+            $.ajax({
+                type: "post",
+                url: "{:url('index/user/editaddress')}",
+                data: {'user_name':username,'mobile':tel,'area':address,'address':area},
+                success: function (res) {
+                    alert(res.message);
+                    if(res.code=='success'){
+                        window.location.href='{:url("index/user/index")}';
+                    }
+                }
+            });
+        }
+        
+    });
     </script>
 </html>

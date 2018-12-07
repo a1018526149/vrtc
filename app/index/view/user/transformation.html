@@ -3,9 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>奖金明细</title>
+    <title>转账记录</title>
     <link rel="stylesheet" href="__CSS__/common.css"/>
     <link rel="stylesheet" href="__CSS__/jjmx.css"/>
+    <link rel="stylesheet" href="__CSS__/transformation.css"/>
     <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!--演示页面样式，使用时可以不引用-->
@@ -45,6 +46,7 @@
         <div class="logo"><img src="__IMG__/logo1.png"></div>
         
         
+        {include file='publish/back'}
         <div class="topright">
         		
                 <div class="box1">账号：{notempty name='member'}{$member.user_name}{else /}未登录{/notempty}</div>
@@ -72,34 +74,10 @@
           <button type="button">购买</button>
            </div>
         </div>
-<!-- 内容-->  
-
-<div class="tabletil">奖金明细</div>
-      <table>
-  <thead>
-	<tr>
-	  <th valign="middle" style="width:20%;">日期</th>
-	  <th valign="middle" style="width:20%;">业绩奖</th>
-	  <th valign="middle" style="width:20%;">复投奖</th>
-	  <th valign="middle" style="width:20%;">团队领导奖</th>
-      <th valign="middle" style="width:20%;">总收入</th>
-	</tr>
-  </thead>
-  <tbody>
-    {volist name='detailed' id='vo'}
-	<tr>
-	  <th valign="middle">{$vo.addtime|date="Y/m/d H:i:s",###}</th>
-	  <td valign="middle">{$vo.money}</td>
-	  <td valign="middle">0</td>
-	  <td valign="middle">0</td>
-      <td valign="middle">{$vo.money}</td>
-	</tr>
-    {/volist}
-  </tbody>
-</table>
- 
-{$detailed->render()}
         
+<!-- 内容-->  
+    
+
 </div>
  
 </body>

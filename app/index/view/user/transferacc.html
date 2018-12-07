@@ -44,6 +44,7 @@
  <div class="login_bg">
         <div class="logo"><img src="__IMG__/logo1.png"></div>
         
+        {include file='publish/back'}
         
         <div class="topright">
         		
@@ -86,147 +87,19 @@
 	</tr>
   </thead>
   <tbody>
+	  {volist name='tranfers' id='vo'}
 	<tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
+	  <th valign="middle">{$vo.addtime|date='Y/m/d H:i:s',###}</th>
+	  <td valign="middle">{if condition="$vo.type==1"}转出{else /}转入{/if}</td>
+	  <td valign="middle">{$vo.price}</td>
+	  <td valign="middle">{$vo.username}转入{$vo.tousername}</td>
 
 	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
-    <tr>
-	  <th valign="middle">2018.11.11</th>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-	  <td valign="middle"></td>
-
-	</tr>
+      {/volist}
   </tbody>
 </table>
  
-<div class="pagina">
-
-<ul>
-	<li><<</li>
-    <li><</li>
-    <li>1</li>
-    <li>2</li>
-	<li>3</li>
-    <li>4</li>
-    <li>5</li>
-    <li>6</li>
-    <li>7</li>
-    <li>8</li>
-    <li>...</li>
-    <li>></li>
-    <li>>></li>
-</ul>
-        
-</div>
+{$tranfers->render()}
         
 </div>
  

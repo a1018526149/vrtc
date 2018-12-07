@@ -34,9 +34,9 @@ function createqrcode($number,$pos){
 	//     $logo_qr_height, $logo_width, $logo_height);   
 	// }   
 	//输出图片   
-	imagepng($QR, './cache/helloweixin.png');   
+	imagepng($QR, './cache/'.$number.'.png');   
 
-	return "./cache/helloweixin.png";
+	return './cache/'.$number.'.png';
 }
 
 function createImage(){
