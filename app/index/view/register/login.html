@@ -116,7 +116,13 @@
         
         <div class="c1">
             <div class="userName refree">
-                <input type="text" name="tjnumber" id="tjnumber" placeholder="推荐码" pattern="[0-9A-Za-z]{6,16}" required />
+                <input type="text" name="tjnumber" id="tjnumber" placeholder="推荐码" pattern="[0-9A-Za-z]{6,16}" required {notempty name='$refree'}value='{$refree}' readonly{/notempty} />
+            </div>
+       </div>
+
+       <div class="c1">
+            <div class="userName refree">
+                <input type="text" name="tjnumber" id="pos" placeholder="左右区" pattern="[0-9A-Za-z]{6,16}" required {notempty name='$pos'}value='{$pos}' readonly{/notempty} />
             </div>
        </div>
         

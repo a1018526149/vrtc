@@ -8,7 +8,8 @@ namespace app\index\controller;
 use \think\Db;
 use \think\Request;
 use \think\Session;
-class Login  extends Index
+use \think\Controller;
+class Login extends Controller
 {
     function Index(){
         return $this->fetch();

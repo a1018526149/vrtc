@@ -3,17 +3,16 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>奖金明细</title>
-    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <title>主页</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>    
     <link rel="stylesheet" href="__CSS__/jjmx.css"/>
-    <link rel="stylesheet" href="__CSS__/publish.css"/>
     <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!--演示页面样式，使用时可以不引用-->
 	<link rel="stylesheet" type="text/css" href="__CSS__/demo.css">
 	<link rel="stylesheet" href="__PUBLIC__/bootstrap/css/icheck-bootstrap.css">
+    <link rel="stylesheet" href="__CSS__/publish.css"/>
     <script type="text/javascript" src="__PUBLIC__/jquery/jquery-latest.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
         function fontSize(){
             var deviceWidth=document.documentElement.clientWidth>768?768:document.documentElement.clientWidth;
@@ -23,21 +22,7 @@
         window.onresize=fontSize;
     </script>
     <style>
-    .pageRemark{
-        display: none;
-    }
-    .cur{
-        background-color:black !important; 
-    }
-    .pagination a{
-        margin-right: 0px !important;
-    }
-    .pagination{
-        padding-top:0px !important;
-        margin-left: 20px; 
-        margin-top: 0px;
-        height: 0px !important; 
-    }.row{
+    .row{
         position: relative;
         top:142px;left:0px;
         margin-right: 0px;
@@ -71,10 +56,10 @@
     .fixed-box{
         /* border: 1px solid red; */
     width: 100%;
-    height: 504px;
+    height: 546px;
     overflow: scroll;
     position: relative;
-    top: 90px;
+    top: 17px;
     left: 0px;
     }
     .product-box {
@@ -82,7 +67,7 @@
     height: 230px;
     /* border: 1px solid red; */
     position: relative;
-    top: 10px;
+    top: -20px;
     left: 0px;
 }
     </style>
@@ -92,7 +77,8 @@
 
  <div class="login_bg">
         <div class="logo"><img src="__IMG__/logo1.png"></div>
-        {include file="publish/back"}
+        
+        {include file='publish/back'}
         
         <div class="topright">
         		
@@ -121,34 +107,26 @@
           <button type="button">购买</button>
            </div>
         </div>
+        
 <!-- 内容-->  
-</div>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <a class="navbar-brand" href="{:url('index/index/index')}">全部</a>
-        {volist name='$cate' id='vo'}
-        <a class="navbar-brand" href="{:url('index/index/index',['cate'=>$vo.id])}">{$vo.name}</a>
-        {/volist}
-      </div>
-  
-    </div><!-- /.container-fluid -->
-  </nav>
-<!-- 商品一 -->
 
+        
 <div class="fixed-box">
-    <div class="product-box">
-            {volist name='product' id='vo'}
-            <div class="product-info">
-                <a href="{:url('index/index/proview',['id'=>$vo.id])}"><img src="{$vo.thumb|geturl}" alt=""></a> 
-                <p> <span>{$vo.name}</span><br>{$vo.price}元 <a href="{:url('index/index/proview',['id'=>$vo.id])}"><button>购买</button></a></p>
-               
-              </div>
-            {/volist}
-            
-        </div>
+        <div class="product-box">
+                <h3 class="ptitle">{$cate.name}<p style="float:right"><a href="{:url('index/index/cate',['id'=>$cate.id])}">>>></a></p></h3>
+                {volist name='product' id='vo'}
+                <div class="product-info">
+                    <a href="{:url('index/index/proview',['id'=>$vo.id])}"><img src="{$vo.thumb|geturl}" alt=""></a> 
+                    <p> <span>{$vo.name}</span><br>{$vo.price}元 <a href="{:url('index/index/proview',['id'=>$vo.id])}"><button>购买</button></a></p>
+                   
+                  </div>
+                {/volist}
+                
+            </div>
+</div>   
+        
 </div>
-  
+
+
 </body>
 </html>

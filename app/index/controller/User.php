@@ -141,13 +141,20 @@ class User extends Index
             $this->returnMessage['code']='error';
             $this->returnMessage['message']='非法请求！';
         }else{
-            $id=$this->request->post('id');
-            if(Db::name('member')->where('id',$id)->update(['status'=>1])==1){
-                $this->returnMessage['code']='success';
-                $this->returnMessage['message']='激活成功';
-            }else{
+            $uid=Session::get('member')['id'];
+            $member=Db::name('member')->field('zbonus')->where('id',$uid)->find();
+            if($member['zbonus']<1000){
                 $this->returnMessage['code']='error';
-                $this->returnMessage['message']='激活失败，请重试！';
+                $this->returnMessage['message']='钻石不足，无法激活';
+            }else{
+                $id=$this->request->post('id');
+                if(Db::name('member')->where('id',$id)->update(['status'=>1])==1){
+                    $this->returnMessage['code']='success';
+                    $this->returnMessage['message']='激活成功';
+                }else{
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='激活失败，请重试！';
+                }
             }
         }
         return json($this->returnMessage);

@@ -130,7 +130,7 @@
                                         </div>
                                       </div> -->
         <!-- 选项组 -->
-        <button type="button" class="btn btn-primary other">升级钱包</button>
+        <button type="button" class="btn btn-primary other upwallet">升级钱包</button>
         <a href="{:url('index/user/detailed')}"><button type="button" class="btn btn-primary other">奖金明细</button></a>
         <button type="button" class="btn btn-primary other" id='tranfer'>会员转账</button>
         <button type="button" class="btn btn-primary other attc" id="transformation">币币转换</button>
@@ -185,6 +185,32 @@
         <button type="button" class="btn-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
         <button type="button" class="btn-no">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
     </div>
+
+<!-- 升级钱包弹窗 -->
+<div class="uplevel-box">
+    <div class="box-header">
+        <span class="span"><b>钱包升级</b></span>
+        <img src="__IMG__/close2.png" alt="" class="close2">
+    </div>
+    <label for="">购买数量</label>
+    <select class="form-control">
+            <option>选择升级类型</option>
+            <option>一级钱包升二级钱包</option>
+            <option>二级钱包升三级钱包</option>
+          </select>
+    <label for="">升级费用</label>
+    <select class="form-control">
+            <option>请选择</option>
+            <option>1000</option>
+            <option>2000</option>
+            <option>3000</option>
+            <option>4000</option>
+          </select>
+          <br>
+    <input type="password" class="form-control" id="payPwd" placeholder="支付密码">
+    <button type="button" class="btn-uplevel-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+    <button type="button" class="btn-no">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+</div>
  
 </body>
 <script>
@@ -200,6 +226,15 @@ $('#transformation').click(function(){
 $('.close').click(function(){
     $('.body-box').attr('style','display:block;');
     $('.middle-box').attr('style','display:none;'); 
+});
+    //点击事件
+$('.upwallet').click(function(){
+    $('.body-box').attr('style','display:none;');
+    $('.uplevel-box').attr('style','display:block;');
+});
+$('.close2').click(function(){
+    $('.body-box').attr('style','display:block;');
+    $('.uplevel-box').attr('style','display:none;');
 });
 </script>
 </html>

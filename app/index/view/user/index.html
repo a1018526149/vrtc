@@ -113,7 +113,7 @@
                  </a>
                  
                  
-                 <a href="" class="aui-grids-item"> 
+                 <a href="{:url('index/index/index')}" class="aui-grids-item"> 
                      <div class="aui-grids-item-icon">
                      
                      <img src="__IMG__/t2.png">
@@ -320,17 +320,19 @@
                 <!-- Single button -->
                 <div>
                         <select class="form-control sel sheng">
-                                <option selected>{$address.0}</option>                            
+                                {notempty name='$address.0'}<option selected>{$address.0}</option> {/notempty}                           
                             {volist name='sheng' id='vol'}
                             <option value="{$vol.id}">{$vol.cityname}</option>
                             {/volist}
                         </select>
                         <select class="form-control sel shi">
-                                <option selected>{$address.1}</option>                            
+                                {notempty name='$address.1'}<option selected>{$address.1}</option>{/notempty}
+                                                            
                                 <option>市</option>
                         </select>
                         <select class="form-control sel xian">
-                                <option selected>{$address.2}</option>                            
+                                {notempty name='$address.2'}<option selected>{$address.2}</option>{/notempty}
+                                                            
                                 <option>县</option>
                         </select>
                 </div>
@@ -394,8 +396,10 @@
                     url: "{:url('index/user/outlogin')}",
                     data: {"out":1},
                     success: function (res) {
-                        console.log(res);
-                        
+                        alert(res.message);
+                        if(res.code=='success'){
+                            window.location.href='{:url("index/login/index")}'
+                        }
                     }
                 });
             }

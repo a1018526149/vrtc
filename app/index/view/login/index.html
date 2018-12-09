@@ -277,7 +277,7 @@ $('.login__submit').click(function(){
             success: function (res) {
                 alert(res.message);
                 if(res.code=='success'){
-                    location.href="{:url('index/index/index')}";
+                    location.href="{:url('index/user/index')}";
                 }else{
                     location.reload();
                 }

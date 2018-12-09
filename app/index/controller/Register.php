@@ -8,8 +8,8 @@ namespace app\index\controller;
 use \think\Db;
 use \think\Request;
 use \think\Session;
-
-class Register  extends Index
+use \think\Controller;
+class Register  extends Controller
 {   
    public $c_str;
     // 注册主页
@@ -22,7 +22,11 @@ class Register  extends Index
 
     function login(){
         $num=number(1);
+        $refree=$this->request->param('refree');
+        $pos=$this->request->param('pos');
+        $this->assign('pos',$pos);
         $this->assign('num',$num);
+        $this->assign('refree',$refree);
         return $this->fetch();
     }
 
@@ -34,7 +38,7 @@ class Register  extends Index
             $this->returnMessage['message']='非法请求！';
         }else{
             $data=$this->request->post();
-            if(Db::name('member')->where('user_number',$data['user_number'])->find()==1){
+            if(Db::name('member')->where('user_number',$data['user_number'])->find()){
                 $this->returnMessage['code']='error';
                 $this->returnMessage['message']='用户名重复';
                 return  json($this->returnMessage);
