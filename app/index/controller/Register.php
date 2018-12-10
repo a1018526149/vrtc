@@ -11,7 +11,7 @@ use \think\Session;
 use \think\Controller;
 class Register  extends Controller
 {   
-   public $c_str;
+   public $c_str,$n_node;
     // 注册主页
     function Index(){
 
@@ -32,7 +32,7 @@ class Register  extends Controller
 
     // 注册接口
     function Register(){
-        global $c_str;
+        global $c_str,$n_node;
         if(!Request::instance()->isPost()){
             $this->returnMessage['code']='error';
             $this->returnMessage['message']='非法请求！';
@@ -108,17 +108,34 @@ class Register  extends Controller
                     break;
                 }
             }
-            $insertData['pos']=$pos;
-            $insertData['refree_node']=$refree_node;
+            if($data['pos']){
+                $insertData['pos']=$data['pos'];
+            }else{
+                $insertData['pos']=$pos;
+            }
+            $this->posPlace($insertData['pos'],$data['refree']);
+            $insertData['refree_node']=$n_node;
             
             $theMember=Db::name('member')->field('gldept,glstr')->where('user_number',$refree_node)->find();
             // 安置关系图
             $insertData['glstr']=$theMember['glstr'].$data['user_number'].',';
             // 安置深度
             $insertData['gldept']=$theMember['gldept']+1;
-
-
-            if(Db::name('member')->where('mobile',$insertData['mobile'])->find()){
+            // dump($insertData);die;
+            $member=Db::name('member')->where('user_number',$data['refree'])->find();
+            if($data['reg']){
+                if($member['zbonus']<1000){
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='钻石不足，请先充值';
+                    return json($this->returnMessage);die;
+                }else{
+                    Db::name('member')->where('user_number',$data['refree'])->update(['zbonus'=>$member['zbonus']-1000]);
+                    $insertData['reg']=$data['user_number'].',';
+                    $insertData['user_name']=time();
+                    $insertData['status']='1';
+                    bonusIncrease();
+                }
+            }else if(Db::name('member')->where('mobile',$insertData['mobile'])->find()){
                 $this->returnMessage['code']='error';
                 $this->returnMessage['message']='手机号重复';
                 return  json($this->returnMessage);
@@ -283,7 +300,7 @@ class Register  extends Controller
         }
         return $this->fetch();
     }
-    // 递归函数
+    // 递归查找节点人函数
     function refreeNode($refree){
         global $c_str;
         static $allMember;
@@ -312,5 +329,20 @@ class Register  extends Controller
         // }
         // $this->refreeNode($v['user_number']);
         // dump($refree_node);
+    }
+    // 左右区安置
+    function posPlace($pos,$refree){
+        global $n_node;
+        $post=$pos;
+        $member=Db::name('member')->where(['pos'=>$pos,'refree_node'=>$refree])->select();
+        $node="";
+        foreach($member as $k => $v){
+            $node=$v['user_number'];
+        }
+        if(empty($node)){
+            $n_node=$refree;
+        }else{
+            $this->posPlace(1,$node);
+        }
     }
 }

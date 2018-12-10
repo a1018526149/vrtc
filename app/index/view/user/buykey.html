@@ -76,7 +76,7 @@
 <div class="tab-box">
 	<div class="kztil">
 
-		<div class="yue">K值余额:0</div>
+		<div class="yue">K值余额:{$setting['recommend']}个</div>
 		
 		<div class="yxj">我的优先级:1</div>
 		
@@ -93,83 +93,16 @@
 			</tr>
 		  </thead>
 		  <tbody>
-			<tr>
-			  <th valign="middle">1</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">2</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">3</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">4</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">5</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">6</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">7</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">8</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">9</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">10</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
-			<tr>
-			  <th valign="middle">11</th>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			  <td valign="middle"></td>
-			</tr>
+				{volist name='coupon' id='vo'}
+					<tr>
+						<th valign="middle">{$vo.id}</th>
+						<td valign="middle">{$vo.username}</td>
+						<td valign="middle">{$vo.create_time|date="m/d",###}</td>
+						<td valign="middle"></td>
+						<td valign="middle"><a class='btn btn-default'>撤出</a></td>
+					</tr>
+				{/volist}
+	
 		   
 		  </tbody>
 		</table>
@@ -181,7 +114,7 @@
 		
 		<div class="dd">
 		
-		<div class="ddlef">可购买K数量：5个</div>
+		<div class="ddlef">可购买K数量：{$setting['intojj']}个</div>
 		
 		<button type="button" class="buyKey">排队购买</button>
 		
@@ -200,13 +133,13 @@
 		<img src="__IMG__/close2.png" alt="" class="close">
 	</div>
 	<label for="">购买数量</label>
-	<select class="form-control">
+	<select class="form-control num">
 		<option value="1">1个</option>
 		<option value="2">2个</option>
 		<option value="3">3个</option>
 	  </select>
 	<label for="">支付密码</label>
-	<input type="password" class="form-control" id="new_password"  >
+	<input type="password" class="form-control" id="pay_password"  >
 	
 	
 	<button type="button" class="btn-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
@@ -220,6 +153,33 @@
  $('.close').click(function(){
 	$('.tab-box').attr('style','display:block');
 	$('.buy-box').attr('style','display:none'); 
+ });
+ $('.btn-yes').click(function(){
+	 var number=$('.num option:selected').val();
+	 var pay_password=$('#pay_password').val();
+	 if(pay_password==""){
+		 alert('请输入支付密码');
+	 }else{
+		var conf=confirm("确定购买"+number+"个K值吗？");
+	 if(conf==true){
+		
+		 $.ajax({
+			 type: "post",
+			 url: "{:url('index/user/buykapi')}",
+			 data: {"number":number,"pay_password":pay_password},
+			 success: function (res) {
+				 alert(res.message);
+				 if(res.code=='success'){
+					 	window.location.href='{:url("index/user/buykey")}';
+				 }
+			 }
+		 });
+	 }
+	 
+	 
+	 } 
+	
+	 
  });
  </script>
 </body>

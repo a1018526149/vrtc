@@ -111,7 +111,7 @@
         
             <a href="" class="sh">左区注册</a>
             <a href="{:url('index/register/login',['refree'=>$member.user_number,'pos'=>1])}">新增用户</a>
-            <a href="">新增钱包</a>
+            <a class="add-wallet" value='1'>新增钱包</a>
         
         </div>
 
@@ -119,7 +119,7 @@
         
             <a href="" class="sh">右区注册</a>
             <a href="{:url('index/register/login',['refree'=>$member.user_number,'pos'=>2])}">新增用户</a>
-            <a href="">新增钱包</a>
+            <a class="add-wallet" value='2'>新增钱包</a>
         
         </div>
 
@@ -244,5 +244,60 @@
 
 
 </div>
+<!-- 收货地址修改弹窗 -->
+<div class="wallet-box">
+        <div class="box-header">
+            <span class="span"><b>新增钱包</b></span>
+            <img src="__IMG__/close2.png" alt="" class="close">
+        </div>
+        <input type="hidden" id="pos">
+        <label for="">账号</label>
+        <input type="text" class="form-control" id="user_name" value='{$num}'  >
+        <label for="">登录密码</label>
+        <input type="password" class="form-control" id="login-pwd" placeholder="登录密码" >
+        <label for="">确认密码</label>
+        <input type="password" class="form-control" id="confirm-pwd" placeholder="确认密码" >
+        <button type="button" class="btn-yes">确&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+        <button type="button" class="btn-no">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+</div>
 </body>
+<script>
+    $('.add-wallet').click(function(){
+        var tem_pos=$(this).attr('value');
+        $('#pos').attr('value',tem_pos);
+        $('.wallet-box').attr('style','display:block');
+        $('.sjt').attr('style','display:none');
+    });
+    $('.close').click(function(){
+        $('.wallet-box').attr('style','display:none');
+        $('.sjt').attr('style','display:block');
+    });
+    $('.btn-yes').click(function(){
+        var refree="{$member.user_number}";
+        var pos=$('#pos').val();
+        var user_number=$('#user_name').val();
+        var login_pwd=$('#login-pwd').val();
+        var confirm_pwd=$('#confirm-pwd').val();
+        var timestamp=new Date().getTime();
+        if(user_number==""){
+            alert('账号不能为空');
+        }else if(login_pwd==""){
+            alert('登录密码不能为空');
+        }else if(login_pwd!==confirm_pwd){
+            alert('两次输入密码不同');
+        }else{
+            $.ajax({
+                type: "post",
+                url: "{:url('index/register/register')}",
+                data: {'user_number':user_number,'refree':refree,'user_password':login_pwd,'pos':pos,'reg':refree,'mobile':"1"},
+                success: function (res) {
+                    alert(res.message);
+                    if(res.code=='success'){
+                        window.location.href='{:url("index/user/sjt")}';
+                    }
+                }
+            });
+        }
+    });
+</script>
 </html>

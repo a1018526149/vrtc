@@ -6,6 +6,7 @@
     <title>注册页</title>
     <link rel="stylesheet" href="__CSS__/common.css"/>
     <link rel="stylesheet" href="__CSS__/login.css"/>
+    <!-- <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.css"/> -->
 
     <style>
         input::-webkit-input-placeholder{
@@ -122,7 +123,21 @@
 
        <div class="c1">
             <div class="userName refree">
-                <input type="text" name="tjnumber" id="pos" placeholder="左右区" pattern="[0-9A-Za-z]{6,16}" required {notempty name='$pos'}value='{$pos}' readonly{/notempty} />
+                <select name="" id="pos" class="form-control">
+                    {notempty name='$pos'}
+                    {eq name='$pos' value='1'}
+                    <option value="1" selected>左区</option>
+                    <option value="2">右区</option>
+                    {else /}
+                    <option value="1">左区</option>
+                    <option value="2" selected>右区</option>
+                    {/eq}
+                    {else /}
+                    <option value="1" selected>左区</option>
+                    <option value="2">右区</option>
+                    {/notempty}
+                </select>
+                
             </div>
        </div>
         
@@ -188,6 +203,7 @@
         *验证以及提交
         */
         $('.login_dl').click(function(){
+            var pos =$('#pos option:selected').val();
             var name=$('#name').val();
             var number=$('#number').val();
             var phone1=$('#phone1').val();
@@ -216,15 +232,12 @@
                 $.ajax({
                     type: "post",
                     url: "{:url('index/register/register')}",
-                    data: {'user_name':name,'user_number':number,'mobile':phone1,'refree':refree,'user_password':password},
+                    data: {'user_name':name,'user_number':number,'mobile':phone1,'refree':refree,'user_password':password,'pos':pos},
                     success: function (res) {
                         alert(res.message);
                         if(res.code=='success'){
                             window.location.href='{:url("index/register/product")}'+'?number='+number;
                         }
-                    },
-                    error:function(){
-                        alert('注册失败，请重试');
                     }
                 });
             }

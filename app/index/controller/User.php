@@ -110,9 +110,59 @@ class User extends Index
     function buyKey(){
         $id=Session::get('member')['id'];
         $member=Db::name('member')->where('id',$id)->find();
+        $setting=Db::name('setting')->field('recommend,intojj')->where('id',2)->find();
+        $coupon=Db::name('coupon')->where('username',$member['user_number'])->paginate(10);
+        $this->assign('coupon',$coupon);
         unset($member['user_password']);
+        $this->assign('setting',$setting);
         $this->assign('member',$member);
         return $this->fetch();
+    }
+    // 购买Key值API
+    function buyKApi(){
+        if(!Request::instance()->isPost()){
+            $this->returnMessage['code']='error';
+            $this->returnMessage['message']='非法请求！';
+        }else{
+            $id=Session::get('member')['id'];
+            $member=Db::name('member')->where('id',$id)->find();
+            $data=$this->request->post();
+            $set=Db::name('setting')->field("intojj,intocx,tax,fhrate,recommend")->where('id',2)->find();
+            if(md5(md5($data['pay_password']))!=$member['pay_password']){
+                $this->returnMessage['code']='error';
+                $this->returnMessage['message']='支付密码错误!';
+            }else{
+                $time=time();
+                $insertData=[
+                    'username'=>$member['user_number'],
+                    'realname'=>$member['user_name'],
+                    'buyprice'=>$set['intocx']*$data['number'],
+                    'create_time'=>$time,
+                    'dayprice'=>$set['fhrate'],
+                    'daynum'=>$set['tax'],
+                    'jstime'=>$time+(86400*30)
+                ];
+                
+                if($member['bonus']<$insertData['buyprice']){
+                    $this->returnMessage['code']='error';
+                    $this->reutrnMessage['message']='金币不足';
+                    return json($this->returnMessage);die;
+                }
+                if($set['recommend']<1){
+                    $this->returnMessage['code']='success';
+                    $this->returnMessage['message']='当前K值不足，请等待排队';
+                    return json($this->returnMessage);die;
+                }
+                if(Db::name('coupon')->insert($insertData)==1&&Db::name('setting')->where('id',2)->update(['recommend'=>$set['recommend']-1])==1&&Db::name('member')->where('id',$id)->update(['bonus'=>$member['bonus']-$insertData['buyprice']])==1){
+                    $this->returnMessage['code']='success';
+                    $this->returnMessage['message']='购买成功';
+                }else{
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='购买失败，请重试';
+                }
+            }
+        }
+        return json($this->returnMessage);
     }
     // 公司公告
     function notice(){
@@ -148,7 +198,8 @@ class User extends Index
                 $this->returnMessage['message']='钻石不足，无法激活';
             }else{
                 $id=$this->request->post('id');
-                if(Db::name('member')->where('id',$id)->update(['status'=>1])==1){
+                if(Db::name('member')->where('id',$id)->update(['status'=>1])==1&&Db::name('member')->where('id',$uid)->update(['zbonus'=>$member['zbonus']-1000])==1){
+                    bonusIncrease();
                     $this->returnMessage['code']='success';
                     $this->returnMessage['message']='激活成功';
                 }else{
@@ -201,6 +252,8 @@ class User extends Index
     }
     // 三级图
     function sjt(){
+        $num=number(1);
+        $this->assign('num',$num);
         return $this->info();
     }
    // 获取市

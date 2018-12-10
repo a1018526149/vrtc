@@ -9,13 +9,13 @@ function createqrcode($number,$pos){
 
 	//定义生成内容
 	// $content = "尝试下内容测试";
-	$content= "http://www.baidu.com";//如果是网址，则需要加上http，否则无法进入网址
+	$content= "http://localhost/index/register/login?pos=".$pos."&refree=".$number;//如果是网址，则需要加上http，否则无法进入网址
 
 	//调用Qrcode类的静态png方法生成二维码团
-	$qrcode = Qrcode::png($content,"./cache/qrcode.png",$errorLevel,$size);
+	$qrcode = Qrcode::png($content,'./cache/'.$number.'.png',$errorLevel,$size);
 
 	// $logo 	= './cache/logo.png';//准备好的logo图片   
-	$QR 	= './cache/qrcode.png';//已经生成的原始二维码图   
+	$QR 	= './cache/'.$number.'.png';//已经生成的原始二维码图   
     $QR = imagecreatefromstring(file_get_contents($QR));   
 
 	// if ($logo !== FALSE) {   
@@ -74,3 +74,5 @@ function admin($id){
 	$admin=\think\Db::name('admin')->field('nickname')->where('id',$id)->find();
 	return $admin['nickname'];
 }
+
+

@@ -310,3 +310,25 @@ function number($a){
     $number=$char.rand(10000,99999);
     return $number;
 }
+
+/**
+ * 激活会员写入奖金池并生成“K”值
+ * @author LC 2018/12/10
+ * @param float $bonus 参数设置
+ */
+
+function bonusIncrease(){
+	
+	$new_bonus=\think\Db::name('setting')->field('hcrate')->where('id',2)->find();
+	//新增钱包时添加奖金
+	if(\think\Db::name('setting')->where('id',2)->update(['hcrate'=>$new_bonus['hcrate']+300])){
+		return true;
+	}else{
+		return false;
+	}
+	$bonus=\think\Db::name('setting')->field('hcrate,recommend,dbrate')->find();
+	if($bonus['hcrate']>=$bonus['dbrate']){
+		\think\Db::name('setting')->where('id',2)->update(['recommend'=>$bonus['recommend']+1]);//添加Key值
+		\think\Db::name('setting')->where('id',2)->update(['hcrate'=>$bonus['hcrate']-1200]);//修改金额
+	}
+}
