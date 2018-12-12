@@ -65,21 +65,7 @@
        
         </div>
         
-        <div class="topbom">
-           
-           <div class="box2"> 
-           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
-          <button type="button">提现</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
-          <button type="button">充值</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
-          <button type="button">购买</button>
-           </div>
-        </div>
+        {include file="publish/topbom"}
         <div class="thebox-body">
         
         <div class="chart">
@@ -167,6 +153,7 @@
                          <a href="javascript:;"><img src="__IMG__/user.png"><span>个人中心</span><i class="my-icon nav-more"></i></a>
                          <ul>
                              <li><a href="{:url('index/user/transferacc')}"><span>转账记录</span></a></li>
+                             <li><a href="{:url('index/user/cashlist')}"><span>提现记录</span></a></li>
                              <li><a class="edit"><span>个人资料</span></a> </li>
                              {notempty name='$member'}
                              <li><a class="edit-password"><span>修改密码</span></a> </li>
@@ -296,7 +283,7 @@
                 <label for="">密码确认&nbsp;&nbsp;</label>
                 <input type="password" class="form-control" id="confirm_password" placeholder="密码确认" >
                 <label for="">原支付密码</label>
-                <input type="password" class="form-control" id="old_pay_password" placeholder="原支付密码" >
+                <input type="password" class="form-control" id="old_pay_password" placeholder="原支付密码：默认123456" >
                 <label for="">新支付密码</label>
                 <input type="password" class="form-control" id="new_pay_password" placeholder="新支付密码" >
                 <label for="">确认密码&nbsp;&nbsp;</label>
@@ -456,12 +443,22 @@ $('#new_password').click(function(){
 $('#confirm_password').click(function(){
     $('.confirm_password').remove();    
 });
+$('#old_pay_password').click(function(){
+    $('.old_pay_password').remove();    
+});
+$('#new_pay_password').click(function(){
+    $('.new_pay_password').remove();    
+});
+$('#comfirm_pay_password').click(function(){
+    $('.comfirm_pay_password').remove();    
+});
     // 提交密码修改
     $('.btn-pwd-yes').click(function(){
         var old_password=$('#old_password').val();
         var new_password=$('#new_password').val();
         var confirm_password=$('#confirm_password').val();
         var old_pay_password=$('#old_pay_password').val();
+        var new_pay_password=$('#new_pay_password').val();
         var comfirm_pay_password=$('#comfirm_pay_password').val();
         if(old_password==""){
             $('.old_password').remove();
@@ -472,14 +469,23 @@ $('#confirm_password').click(function(){
         }else if(confirm_password!==new_password){
             $('.confirm_password').remove();
             $('#confirm_password').before('<img src="__IMG__/error.png" style="width:30px;height:auto;" class="alert-img confirm_password"/>');
+        }else if(old_pay_password==""){
+            $('.old_pay_password').remove();
+            $('#old_pay_password').before('<img src="__IMG__/error.png" style="width:30px;height:auto;" class="alert-img old_pay_password"/>');
+        }else if(new_pay_password==""){
+            $('.new_pay_password').remove();
+            $('#new_pay_password').before('<img src="__IMG__/error.png" style="width:30px;height:auto;" class="alert-img new_pay_password"/>');
+        }else if(new_pay_password!==comfirm_pay_password){
+            $('.comfirm_pay_password').remove();
+            $('#comfirm_pay_password').before('<img src="__IMG__/error.png" style="width:30px;height:auto;" class="alert-img comfirm_pay_password"/>');
         }else{
             $.ajax({
                 type: "post",
                 url: "{:url('index/user/editpassword')}",
-                data: {'old_password':old_password,'confirm_password':confirm_password},
+                data: {'old_password':old_password,'confirm_password':confirm_password,'pay_password':old_pay_password,'new_pay_password':new_password,'comfirm_pay_password':comfirm_pay_password},
                 success: function (res) {
                     alert(res.message);
-                    if(res.code){
+                    if(res.code=='success'){
                         window.location.href="{:url('index/login/index')}";
                     }
                 }

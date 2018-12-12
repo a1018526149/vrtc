@@ -73,12 +73,14 @@ class User extends Index
             $id=Session::get('member')['id'];
             $data['old_password']=md5(md5($this->request->post('old_password')));
             $data['confirm_password']=md5(md5($this->request->post('confirm_password')));
+            $data['pay_password']=md5(md5($this->request->post('pay_password')));
+            $data['new_pay_password']=md5(md5($this->request->post('new_pay_password')));
             $member=Db::name('member')->where('id',$id)->find();
-            if($member['user_password']!==$data['old_password']){
+            if($member['user_password']!==$data['old_password']||$member['pay_password']!==$data['pay_password']){
                 $this->returnMessage['code']='error';
                 $this->returnMessage['message']='原始密码不正确';
             }else{
-                if(Db::name('member')->where('id',$id)->update(['user_password'=>$data['confirm_password']])==1){
+                if(Db::name('member')->where('id',$id)->update(['user_password'=>$data['confirm_password'],'pay_password'=>$data['new_pay_password']])==1){
                     Session::delete('member');
                     $this->returnMessage['code']='success';
                     $this->returnMessage['message']='修改密码成功';
@@ -142,10 +144,9 @@ class User extends Index
                     'daynum'=>$set['tax'],
                     'jstime'=>$time+(86400*30)
                 ];
-                
                 if($member['bonus']<$insertData['buyprice']){
                     $this->returnMessage['code']='error';
-                    $this->reutrnMessage['message']='金币不足';
+                    $this->returnMessage['message']='金币不足';
                     return json($this->returnMessage);die;
                 }
                 if($set['recommend']<1){
@@ -171,7 +172,7 @@ class User extends Index
         unset($member['user_password']);
         $this->assign('member',$member);
         // 公告文章
-        $article=Db::name('article')->order('id desc')->paginate(15);
+        $article=Db::name('article')->order(['update_time'=>'desc','id'=>'desc'])->paginate(10);
         $this->assign('article',$article);
         return $this->fetch();
     }
@@ -225,7 +226,7 @@ class User extends Index
         $id=Session::get('member')['id'];
         $member=Db::name('member')->where('id',$id)->find();
         unset($member['user_password']);
-        $tranfers=Db::name('tranfer')->where('username',$member['user_number'])->paginate(15);
+        $tranfers=Db::name('tranfer')->where('username|tousername',$member['user_number'])->order('id desc')->paginate(15);
         $this->assign('tranfers',$tranfers);
         $this->assign('member',$member);
         return $this->fetch();
@@ -244,11 +245,188 @@ class User extends Index
     }
     // 钱包
     function wallet(){
-      return $this->info();
+        $id=Session::get('member')['id'];
+        $member=Db::name('member')->where('id',$id)->find();
+        unset($member['user_password']);
+        $this->assign('member',$member);
+        $grade=Db::name('grade')->where('grade',$member['grade']+1)->find();
+        $this->assign('grade',$grade);
+        return $this->fetch();
+    }
+    // 升级钱包接口
+    function upWallet(){
+        if(!Request::instance()->isPost()){
+            $this->returnMessage['code']='error';
+            $this->returnMessage['message']='非法请求！';
+        }else{
+            $id=Session::get('member')['id'];
+            $member=Db::name('member')->where('id',$id)->find();
+            $grade=Db::name('grade')->where('grade',$member['grade']+1)->find();
+            $data=$this->request->post();
+            $insertData=[
+                'username'=>$member['user_number'],
+                'memo'=>17,
+                'money'=>$grade['muber'],
+                'type'=>2,
+                'addtime'=>time(),
+                'memo1'=>"升级钱包",
+                'type1'=>7,
+            ];
+            if(md5(md5($data['pay_password']))!=$member['pay_password']){
+                $this->returnMessage['code']='error';
+                $this->returnMessage['message']='支付密码错误';
+            }else{
+                if($member['price']<$grade['muber']){
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='钻石不足';
+                    return json($this->returnMessage);die;
+                }
+                if(Db::name('e')->insert($insertData)==1&&Db::name('member')->where('id',$id)->update(['price'=>$member['price']-$grade['muber'],'grade'=>$member['grade']+1])==1){
+                    $this->returnMessage['code']='success';
+                    $this->returnMessage['message']='升级成功';
+                }else{
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='升级失败';    
+                }
+            }
+        }
+        return json($this->returnMessage);
+    }
+    // 转账接口
+    function tranApi(){
+        if(!Request::instance()->isPost()){
+            $this->returnMessage['code']='error';
+            $this->returnMessage['message']='非法请求！';
+        }else{
+            $id=Session::get('member')['id'];
+            $member=Db::name('member')->where('id',$id)->find();
+            $data=$this->request->post();
+            $receive=Db::name('member')->where('user_number',$data['receive'])->find();
+            switch($data['type']){
+                case "bonus":
+                $type=1;
+                break;
+                case "price":
+                $type=2;
+                break;
+                case "vrtc":
+                $type=3;
+                break;
+            }
+            $insertData=[
+                'username'=>$member['user_number'],
+                'realname'=>$member['user_name'],
+                'tousername'=>$data['receive'],
+                'torealname'=>$receive['user_name'],
+                'price'=>$data['money'],
+                'type'=>$type,
+                'addtime'=>time(),
+                'state'=>1
+            ];
+            $insertDataOfE=[
+                'username'=>$receive['user_number'],
+                'memo'=>16,
+                'type'=>1,
+                'money'=>$data['money'],
+                'memo1'=>$receive['user_number']."+".$data['money'],
+                'addtime'=>time(),
+                'type1'=>6
+            ];
+            $insertDataOfE2=[
+                'username'=>$member['user_number'],
+                'memo'=>16,
+                'type'=>2,
+                'money'=>$data['money'],
+                'memo1'=>$member['user_number']."-".$data['money'],
+                'addtime'=>time(),
+                'type1'=>6
+            ];
+            if(md5(md5($data['password']))!=$member['pay_password']){
+                $this->returnMessage['code']='error';
+                $this->returnMessage['message']='支付密码错误!';
+            }else{
+                if($member[$data['type']]<$data['money']){
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='余额不足';
+                    return json($this->returnMessage);
+                }
+                if(!$receive){
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='接收人不存在';
+                    return json($this->returnMessage);die;
+                }
+                if(Db::name('tranfer')->insert($insertData)==1
+                &&Db::name('e')->insert($insertDataOfE)==1
+                &&Db::name('e')->insert($insertDataOfE2)==1
+                &&Db::name('member')->where('id',$id)->update([$data['type']=>$member[$data['type']]-$data['money']])==1
+                &&Db::name('member')->where('user_number',$data['receive'])->update([$data['type']=>$receive[$data['type']]+$data['money']])==1){
+                    $this->returnMessage['code']='success';
+                    $this->returnMessage['message']='转账成功';
+                }else{
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='转账失败';
+                }
+            }
+        }
+        return json($this->returnMessage);
     }
     // 币币转换
     function transformation(){
       return $this->info();
+    }
+    // 币币转换接口
+    function transformationApi(){
+        if(!Request::instance()->isPost()){
+            $this->returnMessage['code']='error';
+            $this->returnMessage['message']='非法请求！';
+        }else{
+            $id=Session::get('member')['id'];
+            $member=Db::name('member')->where('id',$id)->find();
+            $data=$this->request->post();
+            $insertData=[
+                'username'=>$member['user_name'],
+                'memo'=>18,
+                'money'=>$data['tranMoney'],
+                'type'=>2,
+                'addtime'=>time(),
+                'memo1'=>currencyName($data['type'])."-".$data['tranMoney'],
+                'type1'=>8
+            ];
+            $insertData2=[
+                'username'=>$member['user_name'],
+                'memo'=>18,
+                'money'=>$data['tranMoney'],
+                'type'=>2,
+                'addtime'=>time(),
+                'memo1'=>currencyName($data['receive'])."+".$data['tranMoney'],
+                'type1'=>8
+            ];
+            if($data['type']=='price'&&$data['receive']=='bonus'){
+                $this->returnMessage['code']='error';
+                $this->returnMessage['message']='钻石不能转换为金币！';
+                return json($this->returnMessage);die;
+            }
+            if($data['type']=='zbonus'&&$data['receive']=='bonus'){
+                $this->returnMessage['code']='error';
+                $this->returnMessage['message']='钻石不能转换为金币！';
+                return json($this->returnMessage);die;
+            }
+            if(Db::name('e')->insert($insertData)==1
+            &&Db::name('e')->insert($insertData2)==1
+            &&Db::name('member')->where('id',$id)->update([
+                    $data['type']=>$member[$data['type']]-$data['tranMoney'],
+                    $data['receive']=>$member[$data['receive']]+$data['tranMoney']
+                    ]
+                )==1
+                ){
+                $this->returnMessage['code']='success';
+                $this->returnMessage['message']='转换成功';
+            }else{
+                $this->returnMessage['code']='error';
+                $this->returnMessage['message']='转换失败';
+            }
+        }
+        return json($this->returnMessage);
     }
     // 三级图
     function sjt(){
@@ -304,5 +482,71 @@ class User extends Index
             }
         }
         return json($this->returnMessage);
+    }
+    // 充值
+    function recharge(){
+        return $this->info();
+    }
+    // 提现
+    function cashWithdrawa(){
+        $set=Db::name('setting')->field('withdraw_low,withdraw_fee')->where('id',2)->find();
+        $this->assign('set',$set);
+        return $this->info();
+    }
+    // 提交提现申请
+    function pushCashWithdrawa(){
+        if(!Request::instance()->isPost()){
+            $this->returnMessage['code']='error';
+            $this->returnMessage['message']='非法请求';
+        }else{
+            $id=Session::get('member')['id'];
+            $set=Db::name('setting')->field('withdraw_low,withdraw_fee')->where('id',2)->find();
+            $member=Db::name('member')->where('id',$id)->find();
+            $data=$this->request->post();
+            $data['password']=md5(md5($this->request->post('password')));
+            if($data['password']!=$member['pay_password']){
+                $this->returnMessage['code']='error';
+                $this->returnMessage['message']='支付密码错误';
+            }else{
+                if($member['bonus']<$data['money']){
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='金币不足，无法提现';
+                    return json($this->returnMessage);die;
+                }
+                if($data['money']%100!=0){
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='提现金额必须是100的整数倍';
+                    return json($this->returnMessage);die;
+                }
+                $cashMoney=$data['money']-($data['money']*($set['withdraw_fee']/100));
+                $insertData=[
+                    'username'=>$member['user_number'],
+                    'realname'=>$member['user_name'],
+                    'zhanghao'=>$data['address'],
+                    'price'   =>$data['money'],
+                    'addtime' =>time(),
+                    'fee'     =>$data['money']*($set['withdraw_fee']/100)
+                ];
+                if(Db::name('cashes')->insert($insertData)==1&&Db::name('member')->where('id',$id)->update(['bonus'=>$member['bonus']-$data['money']])==1){
+                    $this->returnMessage['code']='success';
+                    $this->returnMessage['message']='提现申请已经提交';
+                }else{
+                    $this->returnMessage['code']='error';
+                    $this->returnMessage['message']='提现申请未能提交，请稍后重试';
+                }
+
+            }
+        }
+        return json($this->returnMessage);
+    }
+    // 提现记录
+    function cashList(){
+        $id=Session::get('member')['id'];
+        $member=Db::name('member')->where('id',$id)->find();
+        unset($member['user_password']);
+        $this->assign('member',$member);
+        $cash=Db::name('cashes')->where('username',$member['user_number'])->order('id desc')->paginate(10);
+        $this->assign('cash',$cash);
+        return $this->fetch();
     }
 }

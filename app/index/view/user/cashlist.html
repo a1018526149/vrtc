@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>我的留言</title>
+    <title>转账记录</title>
     <link rel="stylesheet" href="__CSS__/common.css"/>
-    <link rel="stylesheet" href="__CSS__/gsgg.css"/>
+    <link rel="stylesheet" href="__CSS__/jjmx.css"/>
     <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!--演示页面样式，使用时可以不引用-->
@@ -62,30 +62,37 @@
         
 <!-- 内容-->  
 
-<div class="tabletil">公司公告</div>
+<div class="tabletil">转账记录</div>
       <table>
   <thead>
 	<tr>
-	  <th valign="middle" style="width:10%;">编号</th>
-	  <th valign="middle" style="width:54%;">主题</th>
-	  <th valign="middle" style="width:18%;">发布日期</th>
-	  <th valign="middle" style="width:18%;">发布人</th>
+	  <th valign="middle" style="width:3%;">时间</th>
+	  <th valign="middle" style="width:22%;">收款人姓名</th>
+	  <th valign="middle" style="width:21%;">提现地址</th>
+	  <th valign="middle" style="width:14%;">金额</th>
+	  <th valign="middle" style="width:14%;">手续费</th>
+	  <th valign="middle" style="width:17%;">实际金额</th>
+	  <th valign="middle" style="width:8%;">状态</th>
 	</tr>
   </thead>
   <tbody>
-    {volist name='article' id='vo'}
-        <tr>
-            <th valign="middle">{$vo.id}</th>
-            <td valign="middle">{$vo.title|substr=0,36}</td>
-            <td valign="middle">{$vo.create_time|date="y/m/d H:i:s",###}</td>
-            <td valign="middle">{$vo.admin_id|admin}</td>
-        </tr>
-    {/volist}
-    
+	  {volist name='cash' id='vo'}
+	<tr>
+	  <th valign="middle">{$vo.addtime|date='m/d H:i:s',###}</th>
+	  <td valign="middle">{$vo.realname}</td>
+	  <td valign="middle">{$vo.zhanghao|substr=0,5}...</td>
+	  <td valign="middle">{$vo.price}</td>
+	  <td valign="middle">{$vo.price}</td>
+      <td valign="middle">{$vo.price-$vo.fee}</td>
+	  <td valign="middle">{if condition="$vo.state==1"}已审{else /}未审{/if}</td>
+      
+
+	</tr>
+      {/volist}
   </tbody>
 </table>
  
-{$article->render()}
+{$cash->render()}
         
 </div>
  

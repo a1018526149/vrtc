@@ -208,7 +208,9 @@ function grade($grade){
     switch($state){
         case 1:$state_1="报单币";break;
         case 2:$state_1="奖金";break;
-
+        case 3:$state_1="VRTC";break;
+        default:
+        $state_1="NULL";
      }
 
     return $state_1;
@@ -232,6 +234,9 @@ function grade($grade){
         case 1:$state_1="充值";break;
 		case 3:$state_1="提现";break;
         case 15:$state_1="提现手续费";break;
+        case 16:$state_1="转账";break;
+        case 17:$state_1="升级钱包";break;
+        case 18:$state_1="转换币种";break;
 		case 20:$state_1="推荐奖";break;
      }
 
@@ -332,3 +337,27 @@ function bonusIncrease(){
 		\think\Db::name('setting')->where('id',2)->update(['hcrate'=>$bonus['hcrate']-1200]);//修改金额
 	}
 }
+
+/**
+ * 货币种类
+ * @author LC 2018/12/10
+ * @param string $name 奖金名称 
+ */
+
+ function currencyName($type){
+    switch($type){
+        case "bonus":
+        $name="金币";
+        break;
+        case "price_repeat":
+        $name='商城币';
+        break;
+        case "price":
+        $name='钻石';
+        break;
+        case "vrtc":
+        $name='VRTC';
+        break;
+    }
+    return $name;
+ }

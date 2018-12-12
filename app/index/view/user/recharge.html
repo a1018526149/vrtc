@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>我的留言</title>
+    <title>扫描二维码充值</title>
     <link rel="stylesheet" href="__CSS__/common.css"/>
-    <link rel="stylesheet" href="__CSS__/gsgg.css"/>
+    <link rel="stylesheet" href="__CSS__/jjmx.css"/>
     <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!--演示页面样式，使用时可以不引用-->
@@ -62,32 +62,12 @@
         
 <!-- 内容-->  
 
-<div class="tabletil">公司公告</div>
-      <table>
-  <thead>
-	<tr>
-	  <th valign="middle" style="width:10%;">编号</th>
-	  <th valign="middle" style="width:54%;">主题</th>
-	  <th valign="middle" style="width:18%;">发布日期</th>
-	  <th valign="middle" style="width:18%;">发布人</th>
-	</tr>
-  </thead>
-  <tbody>
-    {volist name='article' id='vo'}
-        <tr>
-            <th valign="middle">{$vo.id}</th>
-            <td valign="middle">{$vo.title|substr=0,36}</td>
-            <td valign="middle">{$vo.create_time|date="y/m/d H:i:s",###}</td>
-            <td valign="middle">{$vo.admin_id|admin}</td>
-        </tr>
-    {/volist}
-    
-  </tbody>
-</table>
- 
-{$article->render()}
-        
+<img src="__IMG__/rechargeQR.png" alt="..." class="img-rounded" style="width:200px; height:200px;position: relative;top:90px;left:90px;">     
+
+<p class="bg-primary" style="position:relative;top:110px;left:40px;height: 43px;width:80%;word-wrap:break-word;  
+word-break:break-all;">0x01ab9b7A5d78492DE0D3A9dCB037F49a800cC322</p>  
+
+<h3 style="position:relative;top:100px;left:103px;">扫描二维码充值</h3>
 </div>
- 
 </body>
 </html>

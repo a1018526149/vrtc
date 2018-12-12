@@ -58,21 +58,7 @@
        
         </div>
         
-        <div class="topbom">
-           
-           <div class="box2"> 
-           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
-          <button type="button">提现</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
-          <button type="button">充值</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
-          <button type="button">购买</button>
-           </div>
-        </div>
+        {include file="publish/topbom"}
         
 <!-- 内容-->  
 
@@ -90,9 +76,9 @@
 	  {volist name='tranfers' id='vo'}
 	<tr>
 	  <th valign="middle">{$vo.addtime|date='Y/m/d H:i:s',###}</th>
-	  <td valign="middle">{if condition="$vo.type==1"}转出{else /}转入{/if}</td>
+	  <td valign="middle">{if condition="$vo.type==1"}转入{else /}转出{/if}</td>
 	  <td valign="middle">{$vo.price}</td>
-	  <td valign="middle">{$vo.username}转入{$vo.tousername}</td>
+	  <td valign="middle">{if condition="$vo.type==1"}{$vo.username}转入{else /}转给{$vo.torealname}{/if}</td>
 
 	</tr>
       {/volist}

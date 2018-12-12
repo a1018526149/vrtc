@@ -64,21 +64,7 @@
        
         </div>
         
-        <div class="topbom">
-           
-           <div class="box2"> 
-           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
-          <button type="button">提现</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
-          <button type="button">充值</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
-          <button type="button">购买</button>
-           </div>
-        </div>
+        {include file="publish/topbom"}
 
         <h1 class='tempText'>VR商城</h1>
         </div>

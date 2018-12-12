@@ -39,7 +39,7 @@
 <body>
     <div class="login_bg">
         <div class="logo"><img src="__IMG__/logo1.png"></div>
-        
+        {include file="publish/back"}
         
         <div class="topright">
         		
@@ -53,21 +53,7 @@
        
         </div>
         
-        <div class="topbom">
-           
-           <div class="box2"> 
-           		{notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
-          <button type="button">提现</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.zbonus'}{$member.zbonus}{else /}0.00{/notempty}钻石<br>
-          <button type="button">充值</button>
-           </div>
-           <div class="box2"> 
-            {notempty name='$member.price'}{$member.price}{else /}0.00{/notempty}VRTC<br>
-          <button type="button">购买</button>
-           </div>
-        </div> 
+        {include file="publish/topbom"}
     
        <!-- 内容-->  
 
@@ -85,7 +71,7 @@
         {volist name='messages' id='vo'}
         <tr>
             <th valign="middle">{$vo.id}</th>
-            <td valign="middle">{$vo.title|substr=0,4}......</td>
+            <td valign="middle">{$vo.title|substr=0,13}......</td>
             <td valign="middle">{$vo.create_time|date="y/m/d H:i:s",###}</td>
             <td valign="middle"><a class="btn btn-primary del" value='{$vo.id}'>删除</a></td>
         </tr>

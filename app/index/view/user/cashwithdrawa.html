@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>会员激活</title>
+    <title>奖金提现</title>
     <link rel="stylesheet" href="__CSS__/common.css"/>
-    <link rel="stylesheet" href="__CSS__/hyjh.css"/>
+    <link rel="stylesheet" href="__CSS__/jjmx.css"/>
     <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!--演示页面样式，使用时可以不引用-->
@@ -36,6 +36,12 @@
         margin-top: 0px;
         height: 0px !important; 
     }
+    .cash{
+        height:440px ;width:90% ;
+        position: relative;
+        top:100px;left:20px;
+        border:5px solid white;
+    }
     </style>
 </head>
 <body>
@@ -61,50 +67,47 @@
         {include file="publish/topbom"}
         
 <!-- 内容-->  
+    <div class="cash">
+                <div class="form-group">
+                    <label for="exampleInputEmail1" style="margin-left:10%;">提现金额</label>
+                    <input type="text" class="form-control" id="money" placeholder="最低100元,并且为100的整数倍" style="width:80%;margin-left:10%;">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1" style="margin-left:10%;">支付密码</label>
+                    <input type="password" class="form-control" id="password" placeholder="支付密码" style="width:80%;margin-left:10%;">
+                  </div>
+                  <div class="form-group">
+                        <label for="exampleInputEmail1" style="margin-left:10%;">账户地址</label>
+                        <input type="text" class="form-control" id="address" placeholder="提现地址" style="width:80%;margin-left:10%;">
+                      </div>
+                      <button type="button" class="btn btn-primary pushCash" style="width:80%;margin-left:10%;margin-top:10%;">立即提交</button>
+    </div>
+    
 
-<div class="tabletil">会员激活</div>
-      <table>
-  <thead>
-	<tr>
-	  <th valign="middle" style="width:10%;">编号</th>
-      <th valign="middle" style="width:15%;">姓名</th>
-	  <th valign="middle" style="width:32%;">账号</th>
-	  <th valign="middle" style="width:15%;">订单金额</th>
-	  <th valign="middle" style="width:15%;">审核状态</th>
-      <th valign="middle" style="width:13%;">激活</th>
-	</tr>
-  </thead>
-  <tbody>
-    {volist name='users' id='vo'}
-	<tr>
-	  <th valign="middle">{$vo.id}</th>
-	  <td valign="middle">{$vo.user_name}</td>
-	  <td valign="middle">{$vo.user_number}</td>
-	  <td valign="middle">1000元</td>
-      <td valign="middle">{if condition="$vo.status==1"}审核已通过{else /}未审核/未通过{/if}</td>
-	  <td valign="middle">{if condition="$vo.status==1"}<a class="btn btn-success" value='{$vo.id}' disabled="disabled">已激活</a>{else /}<a class="btn btn-success activation" value='{$vo.id}'>确认</a>{/if}</td>
-	</tr>
-    {/volist}    
-  </tbody>
-</table>
- 
-{$users->render()}
- 
+</div>
 </body>
 <script>
-    $('.activation').click(function(){
-        var id=$(this).attr('value');
-        var conf=confirm('确认激活吗？');
-        if(conf==true){
+    $('.pushCash').click(function(){
+        var money=$('#money').val();
+        var password=$('#password').val();
+        var address=$('#address').val();
+        if(money==""){
+            alert('提现金额最少{$set.withdraw_low}元');
+        }else if(password==""){
+            alert('支付密码不能为空');
+        }else if(address==""){
+            alert('请输入账户地址');
+        }else{
             $.ajax({
                 type: "post",
-                url: "{:url('index/user/activing')}",
-                data: {'id':id},
+                url: "{:url('index/user/pushcashwithdrawa')}",
+                data: {"money":money,"password":password,"address":address},
                 success: function (res) {
                     alert(res.message);
                     if(res.code=='success'){
-                        window.location.href='{:url("index/user/activation")}';
+                        window.location.href='{:url("index/user/cashwithdrawa")}';
                     }
+                    
                 }
             });
         }

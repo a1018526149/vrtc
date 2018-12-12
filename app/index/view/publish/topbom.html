@@ -1,0 +1,19 @@
+<div class="topbom">
+           
+        <div class="box2"> 
+                {notempty name='$member.bonus'}{$member.bonus}{else /}0.00{/notempty}金币<br>
+                <a href="{:url('index/user/cashWithdrawa')}">
+                  <button type="button">提现</button>
+                </a>
+        </div>
+        <div class="box2"> 
+         {notempty name='$member.price_repeat'}{$member.price}{else /}0.00{/notempty}钻石<br>
+       <button type="button">充值</button>
+        </div>
+        <a href="{:url('index/user/recharge')}" style="position:relative;z-index:10;">
+        <div class="box2"> 
+         {notempty name='$member.price'}{$member.vrtc}{else /}0.00{/notempty}VRTC<br>
+       <button type="button">购买</button>
+        </div>
+        </a>
+     </div>
